@@ -5,13 +5,16 @@ Project for the course of Context-Aware Systems
 A Context-Aware platform of multi-room audiostreaming, that can reproduce musical file audio in the indoor location where the user is.
 The platform includes features of location-awareness and neighbor-awareness.  
 This system is composed of 3 logical components:
-•User's device (smartphone or PC);
-•Audio speaker (RA): one for each room, it can be dedicated hardware (traditional speaker) or from a PC;
-•Localization and adaptment of contents Server (SLAC).
+
+### •User's device (smartphone or PC);
+### •Audio speaker (RA): one for each room, it can be dedicated hardware (traditional speaker) or from a PC;
+### •Localization and adaptment of contents Server (SLAC).
 
 Specifically, the system: •Localize the user in an indoor environment, by recognizing the room in which he is located;
                           •Activate the streaming audio on the room's respective RA;
                           •Handle the migration of service, based on the user's mobility.
+                          
+             [](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiegogo.com%2Fprojects%2Fmoxivo-a-multiroom-audio-system&psig=AOvVaw1nYqA3SbC8VtMG1vBY29Kz&ust=1626957282816000&source=images&cd=vfe&ved=0CAoQjRxqFwoTCICmnbSW9PECFQAAAAAdAAAAABAq)
                           
 Through the user's device, the user can select the audio file that he want to reproduce, among the ones stored in the SLAC.
 Then, at regular intervals, the device sample constantly the Wi-Fi Access Point data present in the environment (es.  SSID and Received Power), then transfer the corrispondent feature at the SLAC.
