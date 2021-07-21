@@ -1,5 +1,5 @@
 # Multi-room-Audio-System-Java
-Project for the course of Context-Aware Systems
+Project for the course of Context-Aware Systems at Computer Science Master's degree (Alma Mater Studiorum Bologna University), by Meleleo Danilo and Potena Nicandro. 
 
 
 A Context-Aware platform of multi-room audiostreaming, that can reproduce musical file audio in the indoor location where the user is.
