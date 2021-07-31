@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="ProjectServer/src"/>
+	<classpathentry kind="src" path="WifiSignal/app/build/generated/source/buildConfig/debug"/>
+	<classpathentry kind="src" path="WifiSignal/app/src/androidTest/java"/>
+	<classpathentry kind="src" path="WifiSignal/app/src/main/java"/>
+	<classpathentry kind="src" path="WifiSignal/app/src/test/java"/>
+	<classpathentry kind="lib" path="WifiSignal/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar"/>
+	<classpathentry kind="lib" path="WifiSignal/app/build/intermediates/merged_java_res/debug/out.jar"/>
+	<classpathentry kind="lib" path="WifiSignal/app/build/intermediates/project_dex_archive/debug/out/0b5ea247bf89ecc51dd549cc0d190b1989dd3d378f1a5a0b1f29197502cd185e_0.jar"/>
+	<classpathentry kind="lib" path="WifiSignal/app/build/intermediates/project_dex_archive/debug/out/0b5ea247bf89ecc51dd549cc0d190b1989dd3d378f1a5a0b1f29197502cd185e_1.jar"/>
+	<classpathentry kind="lib" path="WifiSignal/app/build/intermediates/project_dex_archive/debug/out/0b5ea247bf89ecc51dd549cc0d190b1989dd3d378f1a5a0b1f29197502cd185e_2.jar"/>
+	<classpathentry kind="lib" path="WifiSignal/app/build/intermediates/project_dex_archive/debug/out/0b5ea247bf89ecc51dd549cc0d190b1989dd3d378f1a5a0b1f29197502cd185e_3.jar"/>
+	<classpathentry kind="lib" path="WifiSignal/app/build/intermediates/project_dex_archive/debug/out/0b5ea247bf89ecc51dd549cc0d190b1989dd3d378f1a5a0b1f29197502cd185e_4.jar"/>
+	<classpathentry kind="lib" path="WifiSignal/app/build/intermediates/project_dex_archive/debug/out/0b5ea247bf89ecc51dd549cc0d190b1989dd3d378f1a5a0b1f29197502cd185e_5.jar"/>
+	<classpathentry kind="lib" path="WifiSignal/gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="output" path="ProjectServer/bin"/>
+</classpath>
