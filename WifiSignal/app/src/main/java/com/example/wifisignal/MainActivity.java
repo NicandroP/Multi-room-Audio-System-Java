@@ -2,27 +2,21 @@ package com.example.wifisignal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.net.Inet4Address;
-import java.net.InetAddress;
+import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
     static DataOutputStream out;
     public StringBuilder sb=new StringBuilder();
     private static boolean running;
-
+    private ArrayList<Object> list=new ArrayList<>();
+    public static ArrayList<Object> arrayMusic=new ArrayList<>();
 
 
     @Override
@@ -54,14 +49,19 @@ public class MainActivity extends AppCompatActivity {
         wifiManager=(WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
         adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,arrayList);
 
+
+        Connect conn=new Connect();
+        conn.execute();
+        Receive r=new Receive();
+        r.execute();
+
     }
 
     public void getWifiInformation(View view) {
-        Connect conn=new Connect();
         running=true;
-        conn.execute();
         t=new RealTime();
         t.start();
+
     }
 
     public void stopWifi(View view) {
@@ -70,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
         disc.execute();
 
         Log.d("mytag","thread stopped!");
+    }
+
+
+    public void music(View view) {
+        startActivity(new Intent(MainActivity.this,MusicActivity.class));
+
     }
 
     class RealTime extends Thread {
@@ -111,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
             try{
                 out.writeUTF("exit");
+                out.flush();
+
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -126,9 +134,39 @@ public class MainActivity extends AppCompatActivity {
                 s=new Socket(ip,port);
                 in=new DataInputStream(s.getInputStream());
                 out=new DataOutputStream(s.getOutputStream());
+                Log.d("mytag","Connection succesfull");
             }catch(Exception e){
                 e.printStackTrace();
             }
+            return null;
+        }
+    }
+    class Receive extends AsyncTask<Void,Void,Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            try{
+                try {
+                    ObjectInputStream objectInput = new ObjectInputStream(s.getInputStream());
+                    try {
+                        Object object = objectInput.readObject();
+                        list = (ArrayList<Object>) object;
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                arrayMusic.clear();
+                for(int i=0; i<list.size(); i++) {
+                    arrayMusic.add(list.get(i));
+                }
+                Log.d("mytag", String.valueOf(arrayMusic));
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
             return null;
         }
     }
@@ -139,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
             try{
                 out.writeUTF(String.valueOf(arrayList));
-                out.flush();
+
             }catch(Exception e){
                 e.printStackTrace();
             }

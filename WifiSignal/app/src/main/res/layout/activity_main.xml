@@ -33,11 +33,25 @@
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="375dp"
-        android:layout_height="385dp"
+        android:layout_width="366dp"
+        android:layout_height="322dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/musicBtn"
+        android:layout_width="195dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="12dp"
+        android:onClick="music"
+        android:text="MUSIC"
+        app:layout_constraintBottom_toTopOf="@+id/getWifiBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listView"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
