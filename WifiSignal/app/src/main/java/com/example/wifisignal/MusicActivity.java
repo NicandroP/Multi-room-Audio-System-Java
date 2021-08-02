@@ -3,11 +3,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -36,6 +38,8 @@ public class MusicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_music);
 
         listView=findViewById(R.id.listViewSong);
+        
+
         for(Object path : arrayMusic){
             String stringSong=path.toString().replace("C:/xampp/htdocs/music/","").replace(".wav","");
             stringMusic.add(stringSong);
@@ -44,6 +48,14 @@ public class MusicActivity extends AppCompatActivity {
 
         SongListAdapter songListAdapter=new SongListAdapter(this,R.layout.list_item,stringMusic);
         listView.setAdapter(songListAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String songName= (String) listView.getItemAtPosition(position);
+                startActivity(new Intent(getApplicationContext(), PlayerActivity.class).putExtra("songname", songName));
+            }
+        });
 
     }
 
