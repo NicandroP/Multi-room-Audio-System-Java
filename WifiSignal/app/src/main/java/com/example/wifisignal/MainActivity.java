@@ -29,11 +29,11 @@ public class MainActivity extends AppCompatActivity {
     private List<ScanResult> results;
     private ArrayAdapter adapter;
     private ArrayList<String> arrayList=new ArrayList<>();
-    private static Socket s;
+    public static Socket s;
     private static String ip="192.168.0.112";
     private static int port=3342;
-    static DataInputStream in;
-    static DataOutputStream out;
+    public static DataInputStream in;
+    public static DataOutputStream out;
     public StringBuilder sb=new StringBuilder();
     private static boolean running;
     private ArrayList<Object> list=new ArrayList<>();

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,17 +18,23 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.example.wifisignal.MainActivity.arrayMusic;
+import static com.example.wifisignal.MainActivity.out;
+import static com.example.wifisignal.MainActivity.s;
 
 public class MusicActivity extends AppCompatActivity {
 
     ListView listView;
     private ArrayAdapter adapter;
     private ArrayList<String> stringMusic=new ArrayList<>();
-    String[] items;
+    ArrayList<String> songToPlay=new ArrayList<>();
+
 
 
 
@@ -38,7 +45,7 @@ public class MusicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_music);
 
         listView=findViewById(R.id.listViewSong);
-        
+
 
         for(Object path : arrayMusic){
             String stringSong=path.toString().replace("C:/xampp/htdocs/music/","").replace(".wav","");
@@ -53,7 +60,15 @@ public class MusicActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String songName= (String) listView.getItemAtPosition(position);
+                String action="p";
+                songToPlay.add(songName);
+                songToPlay.add(action);
+                startMusic startMusic=new startMusic();
+                startMusic.execute();
+
+
                 startActivity(new Intent(getApplicationContext(), PlayerActivity.class).putExtra("songname", songName));
+
             }
         });
 
@@ -78,6 +93,20 @@ public class MusicActivity extends AppCompatActivity {
             textView.setText(sName);
 
             return contextView;
+        }
+    }
+    class startMusic extends AsyncTask<Void,Void,Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            try {
+                out.writeUTF(String.valueOf(songToPlay));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
         }
     }
 }

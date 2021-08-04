@@ -20,6 +20,8 @@ import java.net.Socket;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -51,8 +53,11 @@ public class Server {
 	static String path="C:\\xampp\\htdocs\\music";
 	static File f=new File(path);
 	static File[] list=f.listFiles();
+	static File song;
 	static ArrayList<File> arrayMusic =new ArrayList<File>();
 	static String msgin="";
+	static AudioInputStream audioStream;
+	static Clip clip;
 	
 	
 	public static void main(String[] args) throws IOException {
@@ -62,12 +67,10 @@ public class Server {
 				try {
 					Server window = new Server();
 					window.frame.setVisible(false);
-					/*
-					AudioInputStream audioStream=AudioSystem.getAudioInputStream(files.get(1));
-					Clip clip=AudioSystem.getClip();
-					clip.open(audioStream);
-					clip.start();
-					*/
+					
+					
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -119,48 +122,72 @@ public class Server {
 		while(!msgin.toString().toLowerCase().equals("exit")) {
 			
 			if(msgin!="") {
-				String[] string= msgin.toString().split(",");
-				int n= string.length;
-				int i=0;
+				System.out.println(msgin);
+				String[] songAction=msgin.toString().split(",");
+				String songName=songAction[0].replace("[","");
+				String action=songAction[1];
 				
-				while(i<n) {					
-					String[] string2= string[i].split(":");
-					level= string2[1];
-					ssid= string2[0];
-					
-					if(i!=0){
-						sb.append('\n');
+				if(action.charAt(1)=='p') {
+					System.out.println("ok deve partire "+songName);
+					song=new File(path+"/"+songName+".wav");
+					System.out.println(song);
+					try {
+						playSong(song);
+					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					
-					if(i!=(n-1)) {
-						sb.append(ssid);
-					    sb.append(',');
-					    sb.append(level);
-
-					}else{
-						sb.append(ssid);
-					    sb.append(',');
-					    sb.append(level);
-				    	sb.append('\n');
-				     }
-				      
-					 if(i==(n-1)) {
-						 sb.append('\n');
-					 }
-				 
-				      res=sb.toString();
-				      i++;
-				      
+					
+					
+					
+				}else {
+					String[] string= msgin.toString().split(",");
+					int n= string.length;
+					int i=0;
+					
+					while(i<n) {					
+						String[] string2= string[i].split(":");
+						level= string2[1];
+						ssid= string2[0];
+						
+						/*
+						if(i!=0){
+							sb.append('\n');
+						}
+						*/
+						
+						if(i!=(n-1)) {
+							sb.append(ssid);
+						    sb.append(',');
+						    sb.append(level);
+	
+						}else{
+							sb.append(ssid);
+						    sb.append(',');
+						    sb.append(level);
+					    	sb.append('\n');
+					     }
+					      
+						 if(i==(n-1)) {
+							 sb.append('\n');
+						 }
+					 
+					      res=sb.toString();
+					      i++;
+					      
+					}
+					
+				    System.out.println(msgin.toString());
+				    
+				    try (PrintWriter writer = new PrintWriter(new File("wifiScan.csv"))) {
+				    	
+				    	writer.append(res);
+					}catch (FileNotFoundException e) {
+					      System.out.println(e.getMessage());
+					}
 				}
 				
-			    System.out.println(msgin.toString());
-			    
-			    try (PrintWriter writer = new PrintWriter(new File("wifiScan.csv"))) {
-			    	
-			    	writer.append(res);
-				}catch (FileNotFoundException e) {
-				      System.out.println(e.getMessage());
-				}
 			}
 			
 		    msgin=in.readUTF();
@@ -169,6 +196,12 @@ public class Server {
 		System.out.println("\nClosing the connection");
 		s.close();
 			
+	}
+	private static void playSong(File f) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		audioStream=AudioSystem.getAudioInputStream(f);
+		clip=AudioSystem.getClip();
+		clip.open(audioStream);
+		clip.start();
 	}
 	
 }
