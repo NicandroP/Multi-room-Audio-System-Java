@@ -118,6 +118,8 @@ public class Server {
 	
 	
 	private static void receive() throws IOException {
+		
+		Boolean iniziata=false;
 		long clipTime=0;
 		while(!msgin.toString().toLowerCase().equals("exit")) {
 			
@@ -130,12 +132,27 @@ public class Server {
 					
 					switch(songAction) {
 					case "play" :
-						System.out.println("In riproduzione: "+songName);
-						song=new File(path+"/"+songName+".wav");
-						try {
-							playSong(song);
-						} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-							e.printStackTrace();
+						if(iniziata==false) {
+							System.out.println("In riproduzione: "+songName);
+							song=new File(path+"/"+songName+".wav");
+							try {
+								playSong(song);
+								iniziata=true;
+							} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+								e.printStackTrace();
+							}
+						} else {
+							System.out.println("Stopped.");
+							clip.stop();
+							System.out.println("In riproduzione: "+songName);
+							
+							song=new File(path+"/"+songName+".wav");
+							try {
+								playSong(song);
+								iniziata=true;
+							} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+								e.printStackTrace();
+							}
 						}
 						break;
 					case "pause":
