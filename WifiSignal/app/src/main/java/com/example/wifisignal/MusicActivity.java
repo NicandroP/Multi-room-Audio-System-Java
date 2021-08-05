@@ -60,7 +60,10 @@ public class MusicActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String songName= (String) listView.getItemAtPosition(position);
-                String action="p";
+                String info="action";
+                String action="play";
+                songToPlay.clear();
+                songToPlay.add(info);
                 songToPlay.add(songName);
                 songToPlay.add(action);
                 startMusic startMusic=new startMusic();

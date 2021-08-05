@@ -122,25 +122,27 @@ public class Server {
 		while(!msgin.toString().toLowerCase().equals("exit")) {
 			
 			if(msgin!="") {
-				System.out.println(msgin);
-				String[] songAction=msgin.toString().split(",");
-				String songName=songAction[0].replace("[","");
-				String action=songAction[1];
+				String info=msgin.toString().split(",")[0].replace("[","").replace(" ","");
 				
-				if(action.charAt(1)=='p') {
-					System.out.println("ok deve partire "+songName);
-					song=new File(path+"/"+songName+".wav");
-					System.out.println(song);
-					try {
-						playSong(song);
-					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				if(info.equals("action")) {
+					String songAction=msgin.toString().split(",")[2].replace(" ","").replace("]","");
+					String songName=msgin.toString().split(",")[1].replace("[","").substring(1);
+					
+					switch(songAction) {
+					case "play" :
+						System.out.println("In riproduzione: "+songName);
+						song=new File(path+"/"+songName+".wav");
+						try {
+							playSong(song);
+						} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+							e.printStackTrace();
+						}
+						break;
+					case "pause":
+						clip.stop();
+						System.out.println("Song stopped");
+						break;
 					}
-					
-					
-					
-					
 				}else {
 					String[] string= msgin.toString().split(",");
 					int n= string.length;
@@ -151,11 +153,6 @@ public class Server {
 						level= string2[1];
 						ssid= string2[0];
 						
-						/*
-						if(i!=0){
-							sb.append('\n');
-						}
-						*/
 						
 						if(i!=(n-1)) {
 							sb.append(ssid);
@@ -188,20 +185,24 @@ public class Server {
 					}
 				}
 				
+			
+				
 			}
 			
 		    msgin=in.readUTF();
 		    			
 		}
 		System.out.println("\nClosing the connection");
-		s.close();
+		s.close();//qui non si dovrebbe chiudere la connessione
 			
 	}
+
 	private static void playSong(File f) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		audioStream=AudioSystem.getAudioInputStream(f);
 		clip=AudioSystem.getClip();
 		clip.open(audioStream);
 		clip.start();
 	}
+	
 	
 }
