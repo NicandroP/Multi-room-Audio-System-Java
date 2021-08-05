@@ -48,7 +48,7 @@ public class MusicActivity extends AppCompatActivity {
 
 
         for(Object path : arrayMusic){
-            String stringSong=path.toString().replace("C:/xampp/htdocs/music/","").replace(".wav","");
+            String stringSong=path.toString().replace("C:/wamp64/www/music","").replace(".wav","");
             stringMusic.add(stringSong);
 
         }

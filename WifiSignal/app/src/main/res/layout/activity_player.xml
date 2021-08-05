@@ -53,25 +53,40 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
+
             <Button
                 android:id="@+id/stopButton"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
+                android:background="@drawable/ic_stop"
                 android:onClick="stop"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/ic_stop">
+                android:layout_marginLeft="139dp">
+
 
             </Button>
+
             <Button
-                android:visibility="invisible"
                 android:id="@+id/playButton"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
+                android:layout_marginLeft="239dp"
+                android:background="@drawable/ic_play"
                 android:onClick="play"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/ic_play">
+
+                android:visibility="invisible">
 
             </Button>
+
+            <Button
+                android:id="@+id/pauseButton"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="239dp"
+                android:layout_marginLeft="239dp"
+                android:background="@drawable/ic_pause"
+                android:onClick="pause"
+                android:visibility="visible" />
+
 
         </RelativeLayout>
 

@@ -20,6 +20,8 @@ public class PlayerActivity extends AppCompatActivity {
 
     Button btnPlay;
     Button btnStop;
+    Button btnPause;
+
     TextView txtSname;
     String info="action";
 
@@ -33,6 +35,8 @@ public class PlayerActivity extends AppCompatActivity {
 
         btnPlay=findViewById(R.id.playButton);
         btnStop=findViewById(R.id.stopButton);
+        btnPause = findViewById(R.id.pauseButton);
+
         txtSname=findViewById(R.id.txtSn);
 
 
@@ -44,6 +48,18 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     public void stop(View view) {
+        String action="stop";
+        songToPlay.clear();
+        songToPlay.add(info);
+        songToPlay.add(songName);
+        songToPlay.add(action);
+        actionMusic actionMusic=new actionMusic();
+        actionMusic.execute();
+
+
+    }
+
+    public void pause(View view) {
         String action="pause";
         songToPlay.clear();
         songToPlay.add(info);
@@ -51,19 +67,19 @@ public class PlayerActivity extends AppCompatActivity {
         songToPlay.add(action);
         actionMusic actionMusic=new actionMusic();
         actionMusic.execute();
-        btnStop.setVisibility(View.INVISIBLE);
+        btnPause.setVisibility(View.INVISIBLE);
         btnPlay.setVisibility(View.VISIBLE);
     }
 
     public void play(View view) {
-        String action="play";
+        String action="pause";
         songToPlay.clear();
         songToPlay.add(info);
         songToPlay.add(songName);
         songToPlay.add(action);
         actionMusic actionMusic=new actionMusic();
         actionMusic.execute();
-        btnStop.setVisibility(View.VISIBLE);
+        btnPause.setVisibility(View.VISIBLE);
         btnPlay.setVisibility(View.INVISIBLE);
     }
     class actionMusic extends AsyncTask<Void,Void,Void> {

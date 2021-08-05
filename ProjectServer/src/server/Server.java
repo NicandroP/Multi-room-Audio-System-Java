@@ -44,13 +44,13 @@ public class Server {
 	static Socket s;
 	static DataInputStream in;
 	static DataOutputStream out;
-	static int port=3342;
+	static int port=3345;
 	private JFrame frame;
 	static StringBuilder sb = new StringBuilder();
 	static String level;
 	static String ssid;
 	static String res="";
-	static String path="C:\\xampp\\htdocs\\music";
+	static String path="C:\\wamp64\\www\\music";
 	static File f=new File(path);
 	static File[] list=f.listFiles();
 	static File song;
@@ -118,7 +118,7 @@ public class Server {
 	
 	
 	private static void receive() throws IOException {
-		
+		long clipTime=0;
 		while(!msgin.toString().toLowerCase().equals("exit")) {
 			
 			if(msgin!="") {
@@ -139,6 +139,25 @@ public class Server {
 						}
 						break;
 					case "pause":
+						if (clipTime==0) {
+							
+							clipTime= clip.getMicrosecondPosition();
+							clip.stop();
+							System.out.println("Song paused");
+							break;
+						} else {
+							
+							clip.setMicrosecondPosition(clipTime);
+
+							clip.start();
+							System.out.println("Song resumed");
+							clipTime=0;
+
+							break;
+
+						}
+						
+					case "stop":
 						clip.stop();
 						System.out.println("Song stopped");
 						break;
