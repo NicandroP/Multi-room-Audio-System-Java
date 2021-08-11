@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -37,6 +38,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+
 public class Server {
 	
 	static TextArea textArea;
@@ -44,13 +46,13 @@ public class Server {
 	static Socket s;
 	static DataInputStream in;
 	static DataOutputStream out;
-	static int port=3345;
+	static int port=3342;
 	private JFrame frame;
 	static StringBuilder sb = new StringBuilder();
 	static String level;
 	static String ssid;
 	static String res="";
-	static String path="C:\\wamp64\\www\\music";
+	static String path="C:\\xampp\\htdocs\\music";
 	static File f=new File(path);
 	static File[] list=f.listFiles();
 	static File song;
@@ -58,6 +60,8 @@ public class Server {
 	static String msgin="";
 	static AudioInputStream audioStream;
 	static Clip clip;
+	static double durationInSecondsDecimal;
+	static int durationInSeconds,minutes, seconds;
 	
 	
 	public static void main(String[] args) throws IOException {
@@ -84,6 +88,7 @@ public class Server {
 		for(int i=0;i<list.length;i++) {
 			arrayMusic.add(list[i]);
 		}
+		
 		
 		System.out.println("Starting the server");
 		ss=new ServerSocket(port);
@@ -118,66 +123,57 @@ public class Server {
 	
 	
 	private static void receive() throws IOException {
-		
-		Boolean iniziata=false;
+		Boolean started=false;
 		long clipTime=0;
+		String songName="";
+		int count=0;
+		boolean paused=false;
+		
 		while(!msgin.toString().toLowerCase().equals("exit")) {
 			
 			if(msgin!="") {
 				String info=msgin.toString().split(",")[0].replace("[","").replace(" ","");
 				
 				if(info.equals("action")) {
+					String temp=msgin.toString().split(",")[1].replace("[","").substring(1);
+					if(!songName.equals(temp)) {
+						started=false;
+						paused=false;
+					}
+					songName=msgin.toString().split(",")[1].replace("[","").substring(1);
 					String songAction=msgin.toString().split(",")[2].replace(" ","").replace("]","");
-					String songName=msgin.toString().split(",")[1].replace("[","").substring(1);
-					
+				
 					switch(songAction) {
 					case "play" :
-						if(iniziata==false) {
-							System.out.println("In riproduzione: "+songName);
+						if(started==false) {
+							
+							if(count>0) {
+								clip.stop();
+								clipTime=0;
+							}
+							count++;
 							song=new File(path+"/"+songName+".wav");
 							try {
 								playSong(song);
-								iniziata=true;
+								System.out.println("Playing: "+songName);
+								started=true;
 							} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 								e.printStackTrace();
 							}
-						} else {
-							System.out.println("Stopped.");
-							clip.stop();
-							System.out.println("In riproduzione: "+songName);
-							
-							song=new File(path+"/"+songName+".wav");
-							try {
-								playSong(song);
-								iniziata=true;
-							} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-								e.printStackTrace();
-							}
-						}
-						break;
-					case "pause":
-						if (clipTime==0) {
-							
-							clipTime= clip.getMicrosecondPosition();
-							clip.stop();
-							System.out.println("Song paused");
-							break;
-						} else {
-							
+						}else if(started==true && paused==true) {
+							paused=false;
 							clip.setMicrosecondPosition(clipTime);
-
 							clip.start();
 							System.out.println("Song resumed");
-							clipTime=0;
-
-							break;
-
 						}
 						
-					case "stop":
-						clip.stop();
-						System.out.println("Song stopped");
 						break;
+					case "pause":
+						paused=true;
+						clipTime= clip.getMicrosecondPosition();
+						clip.stop();
+						System.out.println("Song paused");
+							
 					}
 				}else {
 					String[] string= msgin.toString().split(",");
@@ -236,6 +232,13 @@ public class Server {
 	private static void playSong(File f) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		audioStream=AudioSystem.getAudioInputStream(f);
 		clip=AudioSystem.getClip();
+		AudioFormat format = audioStream.getFormat();
+		long frames = audioStream.getFrameLength();
+		durationInSecondsDecimal = (frames + 0.0) / format.getFrameRate();
+		durationInSeconds=(int) durationInSecondsDecimal;
+		minutes=durationInSeconds/60;
+		seconds=durationInSeconds%60;
+		//System.out.println("Duration: "+minutes+":"+seconds);
 		clip.open(audioStream);
 		clip.start();
 	}

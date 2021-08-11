@@ -39,6 +39,7 @@ public class MusicActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +49,7 @@ public class MusicActivity extends AppCompatActivity {
 
 
         for(Object path : arrayMusic){
-            String stringSong=path.toString().replace("C:/wamp64/www/music","").replace(".wav","");
+            String stringSong=path.toString().replace("C:/xampp/htdocs/music/","").replace(".wav","");
             stringMusic.add(stringSong);
 
         }
@@ -68,7 +69,6 @@ public class MusicActivity extends AppCompatActivity {
                 songToPlay.add(action);
                 startMusic startMusic=new startMusic();
                 startMusic.execute();
-
 
                 startActivity(new Intent(getApplicationContext(), PlayerActivity.class).putExtra("songname", songName));
 

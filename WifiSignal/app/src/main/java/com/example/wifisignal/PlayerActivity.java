@@ -19,9 +19,7 @@ import static com.example.wifisignal.MainActivity.out;
 public class PlayerActivity extends AppCompatActivity {
 
     Button btnPlay;
-    Button btnStop;
     Button btnPause;
-
     TextView txtSname;
     String info="action";
 
@@ -34,27 +32,13 @@ public class PlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_player);
 
         btnPlay=findViewById(R.id.playButton);
-        btnStop=findViewById(R.id.stopButton);
-        btnPause = findViewById(R.id.pauseButton);
-
+        btnPause=findViewById(R.id.pauseButton);
         txtSname=findViewById(R.id.txtSn);
 
 
         Intent i=getIntent();
         songName=i.getStringExtra("songname");
         txtSname.setText(songName);
-
-
-    }
-
-    public void stop(View view) {
-        String action="stop";
-        songToPlay.clear();
-        songToPlay.add(info);
-        songToPlay.add(songName);
-        songToPlay.add(action);
-        actionMusic actionMusic=new actionMusic();
-        actionMusic.execute();
 
 
     }
@@ -72,7 +56,7 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     public void play(View view) {
-        String action="pause";
+        String action="play";
         songToPlay.clear();
         songToPlay.add(info);
         songToPlay.add(songName);

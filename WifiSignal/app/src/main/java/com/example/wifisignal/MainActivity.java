@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
     private ArrayList<String> arrayList=new ArrayList<>();
     public static Socket s;
-    private static String ip="192.168.0.103";
-    private static int port=3345;
+    private static String ip="192.168.0.112";
+    private static int port=3342;
     public static DataInputStream in;
     public static DataOutputStream out;
     public StringBuilder sb=new StringBuilder();
