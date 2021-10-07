@@ -37,16 +37,17 @@ import java.util.stream.Stream;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 
 public class Server {
-	
-	static TextArea textArea;
 	static ServerSocket ss;
 	static Socket s;
 	static DataInputStream in;
 	static DataOutputStream out;
-	static int port=3342;
+	static int port=3344;
 	private JFrame frame;
 	static StringBuilder sb = new StringBuilder();
 	static String level;
@@ -62,17 +63,18 @@ public class Server {
 	static Clip clip;
 	static double durationInSecondsDecimal;
 	static int durationInSeconds,minutes, seconds;
+	static JTextField textField;
+	private JButton srsBtn;
+	private JButton freeBtn;
+	private JButton pcBtn;
 	
 	
 	public static void main(String[] args) throws IOException {
-		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Server window = new Server();
-					window.frame.setVisible(false);
-					
-					
+					window.frame.setVisible(true);
 					
 					
 				} catch (Exception e) {
@@ -113,12 +115,74 @@ public class Server {
 	
 	private void initialize() {
 		frame = new JFrame("SERVER");
-		frame.setBounds(100, 100, 582, 451);
+		frame.setBounds(650, 300, 582, 451);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		textArea = new TextArea();
-		textArea.setBounds(23, 10, 510, 239);
-		frame.getContentPane().add(textArea);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 41));
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		textField.setBounds(10, 11, 546, 134);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		JButton stopBtn = new JButton("STOP");
+		stopBtn.setBounds(251, 364, 89, 37);
+		frame.getContentPane().add(stopBtn);
+		
+		srsBtn = new JButton("SRS");
+		srsBtn.setBounds(133, 156, 148, 55);
+		frame.getContentPane().add(srsBtn);
+		
+		srsBtn.addActionListener(e -> {
+			try {
+				Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\connectForceSrs.vbs");
+				System.out.println("Playing from SRS audio speakers");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		freeBtn = new JButton("FREE");
+		freeBtn.setBounds(312, 156, 148, 55);
+		frame.getContentPane().add(freeBtn);
+		
+		
+		
+		freeBtn.addActionListener(e -> {
+			try {
+				Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\connectForceFree.vbs");
+				System.out.println("Playing from FreeBuds audio speakers");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		pcBtn = new JButton("PC");
+		pcBtn.setBounds(222, 237, 148, 55);
+		frame.getContentPane().add(pcBtn);
+		
+		pcBtn.addActionListener(e -> {
+			try {
+				Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\disconnectSrs.vbs");
+				Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\disconnectFree.vbs");
+				System.out.println("Playing from pc audio speakers");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		
+		stopBtn.addActionListener(new ActionListener() { 
+			  public void actionPerformed(ActionEvent e) {
+				  System.out.println("System closed.");
+				  System.exit(0);
+			  } 
+		} );
+		
 	}
 	
 	
@@ -156,6 +220,7 @@ public class Server {
 							try {
 								playSong(song);
 								System.out.println("Playing: "+songName);
+								textField.setText(songName);
 								started=true;
 							} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 								e.printStackTrace();
@@ -242,6 +307,4 @@ public class Server {
 		clip.open(audioStream);
 		clip.start();
 	}
-	
-	
 }

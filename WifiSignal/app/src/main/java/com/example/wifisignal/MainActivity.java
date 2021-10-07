@@ -1,11 +1,17 @@
 package com.example.wifisignal;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
     private ArrayList<String> arrayList=new ArrayList<>();
     public static Socket s;
-    private static String ip="192.168.0.112";
-    private static int port=3342;
+    private static String ip="192.168.1.63";
+    private static int port=3344;
     public static DataInputStream in;
     public static DataOutputStream out;
     public StringBuilder sb=new StringBuilder();
@@ -48,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
         listView=(ListView)findViewById(R.id.listView);
         wifiManager=(WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
         adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,arrayList);
-
-
+        statusCheck();
+        
         Connect conn=new Connect();
         conn.execute();
         Receive r=new Receive();
@@ -81,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
     class RealTime extends Thread {
         @Override
         public void run() {
+
             while(running){
                 try{
                     runOnUiThread(new Runnable() {
@@ -138,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
             }catch(Exception e){
                 e.printStackTrace();
             }
+
+
             return null;
         }
     }
@@ -184,6 +193,32 @@ public class MainActivity extends AppCompatActivity {
 
             return null;
         }
+    }
+    public void statusCheck() {
+        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps();
+
+        }
+    }
+
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 
 }

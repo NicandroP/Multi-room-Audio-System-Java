@@ -1,12 +1,10 @@
 package com.example.wifisignal;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static com.example.wifisignal.MainActivity.arrayMusic;
 import static com.example.wifisignal.MainActivity.out;
-import static com.example.wifisignal.MainActivity.s;
 
 public class MusicActivity extends AppCompatActivity {
 
@@ -34,9 +25,6 @@ public class MusicActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
     private ArrayList<String> stringMusic=new ArrayList<>();
     ArrayList<String> songToPlay=new ArrayList<>();
-
-
-
 
 
 
