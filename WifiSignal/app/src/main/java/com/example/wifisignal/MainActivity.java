@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> arrayList=new ArrayList<>();
     public static Socket s;
     private static String ip="192.168.1.63";
-    private static int port=3344;
+    private static int port=3345;
     public static DataInputStream in;
     public static DataOutputStream out;
     public StringBuilder sb=new StringBuilder();
@@ -93,14 +93,25 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            ArrayList<String> arrayCheck=new ArrayList<>();//array per controllare i doppioni
                             arrayList.clear();
                             wifiManager.startScan();
                             results=wifiManager.getScanResults();
                             listView.setAdapter(adapter);
                             sb.delete(0,sb.length());
                             for(ScanResult result: results){
-                                arrayList.add(result.SSID+" :"+result.level);
-                                sb.append(result.SSID).append(":").append(result.level).append(",");
+                                //cancellare quest'if se si vogliono registrare tutte le frequenze(come all'inizio)
+                                if(result.SSID.equals("FASTWEB-fd6deP") || result.SSID.equals("WOW FI - FASTWEB") ||
+                                        result.SSID.equals("D-Link-EAAFB1") || result.SSID.equals("INCENTIVE") || result.SSID.equals("Vodafone-WiFi")){
+                                    //if per non salvare i doppioni
+                                    if(!arrayCheck.contains(result.SSID)){
+                                        arrayCheck.add(result.SSID);
+                                        arrayList.add(result.SSID+" :"+result.level);
+                                        sb.append(result.SSID).append(":").append(result.level).append(",");
+                                    }
+
+                                }
+
                             }
                             Log.d("mytag",arrayList.toString());
                             Send snd=new Send();

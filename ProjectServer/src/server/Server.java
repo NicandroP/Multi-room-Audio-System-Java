@@ -47,7 +47,7 @@ public class Server {
 	static Socket s;
 	static DataInputStream in;
 	static DataOutputStream out;
-	static int port=3344;
+	static int port=3345;
 	private JFrame frame;
 	static StringBuilder sb = new StringBuilder();
 	static String level;
@@ -241,14 +241,46 @@ public class Server {
 							
 					}
 				}else {
+					int[] inputArray=new int[] {0,0,0,0,0};//array da dare al ML
 					String[] string= msgin.toString().split(",");
 					int n= string.length;
 					int i=0;
 					
-					while(i<n) {					
+					while(i<n) {
+						
+						
 						String[] string2= string[i].split(":");
 						level= string2[1];
 						ssid= string2[0];
+						
+						if(i==0) {//tolto la parentesi dal primo ssid
+							StringBuilder sb2 = new StringBuilder(ssid);
+							sb2.setCharAt(0,' ');
+							ssid=sb2.toString();
+						}
+						if(i+1==n) {//tolgo la parentesi dall'ultimo level
+							StringBuilder sb3 = new StringBuilder(level);
+							sb3.deleteCharAt(sb3.length()-1);
+							level=sb3.toString();
+
+						}
+						switch(ssid) {
+						case " FASTWEB-fd6deP ":
+							inputArray[0]=Integer.parseInt(level);
+							break;
+						case " WOW FI - FASTWEB ":
+							inputArray[1]=Integer.parseInt(level);
+							break;
+						case " D-Link-EAAFB1 ":
+							inputArray[2]=Integer.parseInt(level);
+							break;
+						case " INCENTIVE ":
+							inputArray[3]=Integer.parseInt(level);
+							break;
+						case " Vodafone-WiFi ":
+							inputArray[4]=Integer.parseInt(level);
+							break;
+						}
 						
 						
 						if(i!=(n-1)) {
@@ -272,9 +304,19 @@ public class Server {
 					      
 					}
 					
+					
 				    System.out.println(msgin.toString());
 				    
-				    try (PrintWriter writer = new PrintWriter(new File("wifiScan.csv"))) {
+				    for(int j=0;j<inputArray.length;j++) {
+				    	if(j==inputArray.length-1) {
+				    		System.out.println(inputArray[j]);
+				    	}else {
+				    		System.out.print(inputArray[j]+", ");
+				    	}
+				    	
+				    }
+				    
+				    try (PrintWriter writer = new PrintWriter(new File("wifiScan.csv"))) {      //COMMENTATO PERCHÈ NON CI SERVE PIÙ
 				    	
 				    	writer.append(res);
 					}catch (FileNotFoundException e) {
