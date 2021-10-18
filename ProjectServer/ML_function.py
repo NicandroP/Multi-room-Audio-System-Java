@@ -1,5 +1,13 @@
 import pickle
 import numpy as nm 
+import sys
+array=sys.argv[1]
+a_list=array.split(",")
+map_object = map(int, a_list)
+list_of_integers = list(map_object)
+integers=nm.array([list_of_integers])
+ 
+
+
 loaded_model = pickle.load(open('C:/Users/nican/GitCAProject/Multiroom/ProjectServer/finalized_model.sav', 'rb'))
-prova= nm.array([[-68,-70,-75,-80,-82]])
-print(loaded_model.predict(prova))
+print(loaded_model.predict(integers))

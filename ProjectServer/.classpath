@@ -18,5 +18,6 @@
 	<classpathentry kind="lib" path="C:/Users/nican/.p2/pool/plugins/org.eclipse.ui.workbench_3.122.200.v20210506-1640.jar" sourcepath="C:/Users/nican/.p2/pool/plugins/org.eclipse.ui.workbench_3.122.200.v20210506-1640.jar"/>
 	<classpathentry kind="lib" path="C:/Users/nican/.p2/pool/plugins/com.ibm.icu_67.1.0.v20200706-1749.jar" sourcepath="C:/Users/nican/.p2/pool/plugins/com.ibm.icu_67.1.0.v20200706-1749.jar"/>
 	<classpathentry kind="lib" path="C:/Users/nican/.p2/pool/plugins/org.eclipse.ui.forms_3.11.100.v20210108-1139.jar" sourcepath="C:/Users/nican/.p2/pool/plugins/org.eclipse.ui.forms_3.11.100.v20210108-1139.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

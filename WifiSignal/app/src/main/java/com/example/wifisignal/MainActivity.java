@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        button=(Button)findViewById(R.id.getWifiBtn);
+        //button=(Button)findViewById(R.id.getWifiBtn);
         listView=(ListView)findViewById(R.id.listView);
         wifiManager=(WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
         adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,arrayList);
@@ -60,10 +60,13 @@ public class MainActivity extends AppCompatActivity {
         conn.execute();
         Receive r=new Receive();
         r.execute();
+        //faccio partire direttamente la ricezione invio dei segnali all'apertura dell'app, togliendo i pulsanti GETWIFI e STOP
+        getWifiInformation();
+
 
     }
 
-    public void getWifiInformation(View view) {
+    public void getWifiInformation() {//ho cambiato e ho tolto View view dal parametro funzione
         running=true;
         t=new RealTime();
         t.start();
@@ -118,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                             snd.execute();
                         }
                     });
-                    Thread.sleep(3000);
+                    Thread.sleep(6000);
                 }catch(Exception e){
                     e.printStackTrace();
                 }

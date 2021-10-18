@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
+    <!--<Button
         android:id="@+id/getWifiBtn"
         android:layout_width="195dp"
         android:layout_height="56dp"
@@ -29,7 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/getWifiBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/getWifiBtn" />-->
 
     <ListView
         android:id="@+id/listView"
@@ -44,14 +44,13 @@
         android:id="@+id/musicBtn"
         android:layout_width="195dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="156dp"
         android:onClick="music"
         android:text="MUSIC"
-        app:layout_constraintBottom_toTopOf="@+id/getWifiBtn"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.381" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

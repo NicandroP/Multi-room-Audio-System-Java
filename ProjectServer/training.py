@@ -26,8 +26,8 @@ data_set= data_set.to_numpy()
 
 n_samples, n_features= data_set.shape
 n_features -=1
-X= data_set[0:120,0:n_features]
-Y= data_set[0:120,n_features]
+X= data_set[0:165,0:n_features]
+Y= data_set[0:165,n_features]
 
 #print(X,Y)  
 
@@ -58,30 +58,50 @@ pyplot.boxplot(results, labels=names)
 pyplot.title('Algorithm Comparison')
 pyplot.show() 
 """
-   
+
 st_x= StandardScaler()   
 st_x.fit(X_train) 
 X_train= st_x.fit_transform(X_train)    
-X_test= st_x.transform(X_test)    
+X_test= st_x.transform(X_test)
 
 model = KNeighborsClassifier(n_neighbors=5)
 model.fit(X_train, Y_train)
 predictions = model.predict(X_test)
-""" 
-filename = 'finalized_model.sav'
-pickle.dump(model, open(filename, 'wb'))
+
+ 
+""" filename = 'finalized_model.sav'
+pickle.dump(model, open(filename, 'wb')) #mettere protocol=2 se si vuole far funzionare jython su eclipse(poi esce cmq altro errore)
  """
 
 
-print(accuracy_score(Y_test, predictions))
+""" print(accuracy_score(Y_test, predictions))
 print(confusion_matrix(Y_test, predictions))
-print(classification_report(Y_test, predictions)) 
+print(classification_report(Y_test, predictions)) """ 
 
 #tree.plot_tree(model)
+
+#loaded_model = pickle.load(open('C:/Users/nican/GitCAProject/Multiroom/ProjectServer/finalized_model.sav', 'rb'))
+#prova= nm.array([[-44,-41,-80,-72,-82]])
+#print(loaded_model.predict(integers))
+
+""" prova= nm.array([[-63, -64, 0, -75, -89]])
+#prova=st_x.transform(prova)
+print(model.predict(prova)) """
+
+
+
+#print(prova)
+#print(X_test)
+
+
+
+
+
 """ 
-prova= nm.array([[-68,-70,-75,-80,-82]])
-y_pred= model.predict(prova) 
-print(y_pred) """
+print(y_pred) 
+"""
+
+
 """ 
 error = []
 
@@ -103,3 +123,17 @@ pyplot.show() """
 #loaded_model = pickle.load(open(filename, 'rb'))
 #result = loaded_model.score(X_test, Y_test)
 #print(loaded_model.predict(prova))
+
+
+
+
+
+
+import sys
+array=sys.argv[1]
+a_list=array.split(",")
+map_object = map(int, a_list)
+list_of_integers = list(map_object)
+integers=nm.array([list_of_integers])
+integers= st_x.transform(integers)
+print(model.predict(integers))
