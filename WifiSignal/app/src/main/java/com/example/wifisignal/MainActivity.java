@@ -3,6 +3,7 @@ package com.example.wifisignal;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -30,7 +33,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private Button button;
     private ListView listView;
-    private RealTime t;
+    private TextView textViewWaiting;
+    private TextView textViewConnected;
+    private TextView textViewRoom;
     private WifiManager wifiManager;
     private List<ScanResult> results;
     private ArrayAdapter adapter;
@@ -44,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     private static boolean running;
     private ArrayList<Object> list=new ArrayList<>();
     public static ArrayList<Object> arrayMusic=new ArrayList<>();
+    static LocationManager manager;
+    static String room;
+    static Boolean serverActive=true;
 
 
     @Override
@@ -51,34 +59,53 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //button=(Button)findViewById(R.id.getWifiBtn);
-        listView=(ListView)findViewById(R.id.listView);
+        manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //listView=(ListView)findViewById(R.id.listView);
+        textViewWaiting=(TextView)findViewById(R.id.textViewWaiting);
+        textViewConnected=(TextView)findViewById(R.id.textViewConnected);
+        textViewRoom=(TextView)findViewById(R.id.textViewRoom);
         wifiManager=(WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-        adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,arrayList);
+        //adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,arrayList);
         statusCheck();
-        
         Connect conn=new Connect();
         conn.execute();
         Receive r=new Receive();
         r.execute();
-        //faccio partire direttamente la ricezione invio dei segnali all'apertura dell'app, togliendo i pulsanti GETWIFI e STOP
         getWifiInformation();
 
 
+
     }
+    @Override
+    protected void onDestroy () {
+
+        stopWifi();
+        super.onDestroy();
+
+
+    }
+
+
 
     public void getWifiInformation() {//ho cambiato e ho tolto View view dal parametro funzione
+
         running=true;
-        t=new RealTime();
+        RealTime t=new RealTime();
         t.start();
+
+
 
     }
 
-    public void stopWifi(View view) {
+    public void stopWifi() {
         running=false;
         Disconnect disc=new Disconnect();
         disc.execute();
+        textViewConnected.setVisibility(View.INVISIBLE);
+        textViewWaiting.setText("Server disconnected");
+        textViewWaiting.setVisibility(View.VISIBLE);
+        Log.d("mytag","System disconnected.");
 
-        Log.d("mytag","thread stopped!");
     }
 
 
@@ -93,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
             while(running){
                 try{
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -100,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                             arrayList.clear();
                             wifiManager.startScan();
                             results=wifiManager.getScanResults();
-                            listView.setAdapter(adapter);
+                            //listView.setAdapter(adapter);
                             sb.delete(0,sb.length());
                             for(ScanResult result: results){
                                 //cancellare quest'if se si vogliono registrare tutte le frequenze(come all'inizio)
@@ -116,13 +144,20 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                             }
-                            Log.d("mytag",arrayList.toString());
+                            //Log.d("mytag",arrayList.toString());
                             Send snd=new Send();
                             snd.execute();
+                            if(serverActive==false){
+                                stopWifi();
+                            }
+
+
+
                         }
                     });
-                    Thread.sleep(6000);
+                    Thread.sleep(5000);
                 }catch(Exception e){
+
                     e.printStackTrace();
                 }
             }
@@ -139,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
             try{
                 out.writeUTF("exit");
                 out.flush();
+                s.close();
 
             }catch(Exception e){
                 e.printStackTrace();
@@ -156,7 +192,10 @@ public class MainActivity extends AppCompatActivity {
                 in=new DataInputStream(s.getInputStream());
                 out=new DataOutputStream(s.getOutputStream());
                 Log.d("mytag","Connection succesfull");
+                textViewWaiting.setVisibility(View.INVISIBLE);
+                textViewConnected.setVisibility(View.VISIBLE);
             }catch(Exception e){
+
                 e.printStackTrace();
             }
 
@@ -172,7 +211,9 @@ public class MainActivity extends AppCompatActivity {
             try{
                 try {
                     ObjectInputStream objectInput = new ObjectInputStream(s.getInputStream());
+
                     try {
+
                         Object object = objectInput.readObject();
                         list = (ArrayList<Object>) object;
                     } catch (ClassNotFoundException e) {
@@ -185,33 +226,55 @@ public class MainActivity extends AppCompatActivity {
                 for(int i=0; i<list.size(); i++) {
                     arrayMusic.add(list.get(i));
                 }
-                Log.d("mytag", String.valueOf(arrayMusic));
+
             }catch(Exception e){
+
                 e.printStackTrace();
             }
 
             return null;
         }
     }
+
     class Send extends AsyncTask<Void,Void,Void>{
 
         @Override
         protected Void doInBackground(Void... voids) {
 
+
             try{
-                out.writeUTF(String.valueOf(arrayList));
+                if(arrayList.size()!=0){
+                    out.writeUTF(String.valueOf(arrayList));
+                    room= in.readUTF();
+                    room= String.valueOf(room.charAt(1));
+                    setText(textViewRoom,"You are in the room: "+room);
+                }
+
 
             }catch(Exception e){
+                serverActive=false;
                 e.printStackTrace();
             }
 
             return null;
         }
     }
+
+    private void setText(final TextView text,final String value){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textViewRoom.setText(value);
+            }
+        });
+    }
+
+
     public void statusCheck() {
-        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
 
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
             buildAlertMessageNoGps();
 
         }
@@ -234,5 +297,6 @@ public class MainActivity extends AppCompatActivity {
         final AlertDialog alert = builder.create();
         alert.show();
     }
+
 
 }

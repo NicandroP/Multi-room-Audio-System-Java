@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.io.BufferedReader;
+import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -81,6 +82,7 @@ public class Server {
 	
 	public static void main(String[] args) throws IOException {
 		
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -96,6 +98,7 @@ public class Server {
 	}
 	
 	private static void startServer() throws IOException {
+		arrayMusic.clear();
 		
 		for(int i=0;i<list.length;i++) {
 			arrayMusic.add(list[i]);
@@ -126,9 +129,9 @@ public class Server {
 	
 	private void initialize() {
 		frame = new JFrame("SERVER");
-		frame.getContentPane().setBackground(Color.DARK_GRAY);
+		frame.getContentPane().setBackground(new Color(64, 64, 64));
 		frame.getContentPane().setForeground(Color.BLACK);
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\nican\\Downloads\\musicIcon.png"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\nican\\GitCAProject\\Multiroom\\WifiSignal\\app\\src\\main\\res\\drawable\\music.png"));
 		frame.setBounds(650, 300, 582, 361);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -151,7 +154,7 @@ public class Server {
 		
 		frameIcon=new JPictureBox();
 		frameIcon.setLocation(10, 6);
-		ImageIcon imgIcon=new ImageIcon("C:\\Users\\nican\\Downloads\\musicIcon.png");
+		ImageIcon imgIcon=new ImageIcon("C:\\Users\\nican\\GitCAProject\\Multiroom\\WifiSignal\\app\\src\\main\\res\\drawable\\music.png");
 		frameIcon.setIcon(imgIcon);
 		frameIcon.setSize(50,50);
 		frame.getContentPane().add(frameIcon);
@@ -160,6 +163,7 @@ public class Server {
 		lblX.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				System.out.println("System closed.");
 				System.exit(0);
 			}
@@ -196,11 +200,11 @@ public class Server {
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(titleLabel);
 		
-		progressBar = new JProgressBar();
+		/*progressBar = new JProgressBar();
 		progressBar.setVisible(false);
 		progressBar.setBackground(Color.WHITE);
 		progressBar.setBounds(147, 247, 310, 14);
-		frame.getContentPane().add(progressBar);
+		frame.getContentPane().add(progressBar);*/
 		
 		songDuration = new JLabel("");
 		songDuration.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -253,6 +257,7 @@ public class Server {
 								System.out.println("Playing: "+songName);
 								songLabel.setText(songName);
 								playSong(song);
+								
 								started=true;
 							} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 								e.printStackTrace();
@@ -356,17 +361,27 @@ public class Server {
 			        }
 					String arg = String.join(",", strArray);
 					try {
+						long startTime = System.currentTimeMillis();
 						ProcessBuilder builder=new ProcessBuilder("python","C:\\Users\\nican\\\\GitCAProject\\Multiroom\\ProjectServer\\training.py", arg);
 						Process process=builder.start();
 						
 						BufferedReader reader= new BufferedReader(new InputStreamReader(process.getInputStream()));
 
 						BufferedReader readers= new BufferedReader(new InputStreamReader(process.getErrorStream()));
+						
+						long endTime = System.currentTimeMillis();
+						long seconds = (endTime - startTime);
+						//System.out.println("Programma eseguito in " + seconds + " millisecondi");
+						
 						String lines=null;
 						while((lines=reader.readLine())!=null) {
 							System.out.println(lines);
+							
+							out.writeUTF(lines);
+							
+							
 							switch(lines) {
-							case "[1]":
+							/*case "[1]":
 								if(room!=1) {
 									try {
 										Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\disconnectSrs.vbs");
@@ -397,7 +412,7 @@ public class Server {
 							case "[3]":
 								if(room!=3) {
 									try {
-										Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\connectForceFree.vbs");
+										//Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\connectForceFree.vbs");
 										System.out.println("Playing from FreeBuds audio speakers");
 										room=3;
 									} catch (IOException e1) {
@@ -406,7 +421,7 @@ public class Server {
 									}
 								}
 								
-								break;
+								break;*/
 							}
 						}
 						
@@ -430,12 +445,24 @@ public class Server {
 				
 				
 			}
-			
-		    msgin=in.readUTF();
+			try {
+				msgin=in.readUTF();
+			}catch(IOException e) {
+				System.out.println("\nClosing the connection");
+				s.close();
+				System.out.println("System closed.\n");
+				songLabel.setText("Waiting for client...");
+				startServer();
+				
+				
+			}
+		    
 		    			
 		}
 		System.out.println("\nClosing the connection");
 		s.close();//qui non si dovrebbe chiudere la connessione
+		songLabel.setText("Waiting for client...");
+		startServer();
 			
 	}
 
@@ -451,10 +478,9 @@ public class Server {
 		System.out.println("Duration: "+minutes+":"+seconds);
 		songDuration.setText(minutes+":"+seconds);
 		songTiming.setText("0:00");
-		progressBar.setVisible(true);
+		//progressBar.setVisible(true);
 		clip.open(audioStream);
 		clip.start();
-		
 		
 		
 		

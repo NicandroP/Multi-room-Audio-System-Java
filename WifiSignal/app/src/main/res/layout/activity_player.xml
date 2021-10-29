@@ -27,7 +27,7 @@
             android:singleLine="true"
             android:text="Song name"
             android:textColor="#FFF"
-            android:textSize="22sp"
+            android:textSize="28sp"
             android:textAlignment="center"
             android:textStyle="italic"
             android:layout_width="match_parent"
