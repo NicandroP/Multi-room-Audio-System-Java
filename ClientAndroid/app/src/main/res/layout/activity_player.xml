@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PlayerActivity"
-    android:background="@drawable/musicwallpaper"
     android:orientation="vertical"
     android:weightSum="10">
 
@@ -26,7 +25,7 @@
             android:padding="10dp"
             android:singleLine="true"
             android:text="Song name"
-            android:textColor="#FFF"
+            android:textColor="@color/dark"
             android:textSize="28sp"
             android:textAlignment="center"
             android:textStyle="italic"

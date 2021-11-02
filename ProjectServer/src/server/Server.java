@@ -131,7 +131,7 @@ public class Server {
 		frame = new JFrame("SERVER");
 		frame.getContentPane().setBackground(new Color(64, 64, 64));
 		frame.getContentPane().setForeground(Color.BLACK);
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\nican\\GitCAProject\\Multiroom\\WifiSignal\\app\\src\\main\\res\\drawable\\music.png"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\nican\\GitCAProject\\Multiroom\\ClientAndroid\\app\\src\\main\\res\\drawable\\music.png"));
 		frame.setBounds(650, 300, 582, 361);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -154,7 +154,7 @@ public class Server {
 		
 		frameIcon=new JPictureBox();
 		frameIcon.setLocation(10, 6);
-		ImageIcon imgIcon=new ImageIcon("C:\\Users\\nican\\GitCAProject\\Multiroom\\WifiSignal\\app\\src\\main\\res\\drawable\\music.png");
+		ImageIcon imgIcon=new ImageIcon("C:\\Users\\nican\\GitCAProject\\Multiroom\\ClientAndroid\\app\\src\\main\\res\\drawable\\music.png");
 		frameIcon.setIcon(imgIcon);
 		frameIcon.setSize(50,50);
 		frame.getContentPane().add(frameIcon);
@@ -204,7 +204,7 @@ public class Server {
 		progressBar.setVisible(false);
 		progressBar.setBackground(Color.WHITE);
 		progressBar.setBounds(147, 247, 310, 14);
-		frame.getContentPane().add(progressBar);*/
+		frame.getContentPane().add(progressBar);
 		
 		songDuration = new JLabel("");
 		songDuration.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -216,7 +216,7 @@ public class Server {
 		songTiming.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		songTiming.setForeground(Color.WHITE);
 		songTiming.setBounds(105, 247, 46, 14);
-		frame.getContentPane().add(songTiming);
+		frame.getContentPane().add(songTiming);*/
 		
 		
 	}
@@ -362,7 +362,7 @@ public class Server {
 					String arg = String.join(",", strArray);
 					try {
 						long startTime = System.currentTimeMillis();
-						ProcessBuilder builder=new ProcessBuilder("python","C:\\Users\\nican\\\\GitCAProject\\Multiroom\\ProjectServer\\training.py", arg);
+						ProcessBuilder builder=new ProcessBuilder("python","C:\\Users\\nican\\\\GitCAProject\\Multiroom\\ProjectServer\\training2stanze.py", arg);
 						Process process=builder.start();
 						
 						BufferedReader reader= new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -381,11 +381,11 @@ public class Server {
 							
 							
 							switch(lines) {
-							/*case "[1]":
+							case "[1]":
 								if(room!=1) {
 									try {
 										Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\disconnectSrs.vbs");
-										Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\disconnectFree.vbs");
+										//Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\disconnectFree.vbs");
 										System.out.println("Playing from pc audio speakers");
 										room=1;
 									} catch (IOException e1) {
@@ -409,7 +409,7 @@ public class Server {
 								}
 								
 								break;
-							case "[3]":
+							/*case "[3]":
 								if(room!=3) {
 									try {
 										//Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\connectForceFree.vbs");
@@ -450,6 +450,7 @@ public class Server {
 			}catch(IOException e) {
 				System.out.println("\nClosing the connection");
 				s.close();
+				clip.stop();
 				System.out.println("System closed.\n");
 				songLabel.setText("Waiting for client...");
 				startServer();
@@ -460,6 +461,7 @@ public class Server {
 		    			
 		}
 		System.out.println("\nClosing the connection");
+		clip.stop();
 		s.close();//qui non si dovrebbe chiudere la connessione
 		songLabel.setText("Waiting for client...");
 		startServer();
@@ -476,8 +478,8 @@ public class Server {
 		minutes=durationInSeconds/60;
 		seconds=durationInSeconds%60;
 		System.out.println("Duration: "+minutes+":"+seconds);
-		songDuration.setText(minutes+":"+seconds);
-		songTiming.setText("0:00");
+		//songDuration.setText(minutes+":"+seconds);
+		//songTiming.setText("0:00");
 		//progressBar.setVisible(true);
 		clip.open(audioStream);
 		clip.start();

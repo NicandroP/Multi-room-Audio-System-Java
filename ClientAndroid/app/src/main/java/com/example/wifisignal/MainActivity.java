@@ -9,13 +9,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -31,8 +34,12 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-    private Button button;
-    private ListView listView;
+
+    ListView listView;
+    private ArrayList<String> stringMusic=new ArrayList<>();
+    ArrayList<String> songToPlay=new ArrayList<>();
+
+
     private TextView textViewWaiting;
     private TextView textViewConnected;
     private TextView textViewRoom;
@@ -49,18 +56,21 @@ public class MainActivity extends AppCompatActivity {
     private static boolean running;
     private ArrayList<Object> list=new ArrayList<>();
     public static ArrayList<Object> arrayMusic=new ArrayList<>();
-    static LocationManager manager;
     static String room;
     static Boolean serverActive=true;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        listView=(ListView)findViewById(R.id.listView);
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //button=(Button)findViewById(R.id.getWifiBtn);
-        manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //listView=(ListView)findViewById(R.id.listView);
+
         textViewWaiting=(TextView)findViewById(R.id.textViewWaiting);
         textViewConnected=(TextView)findViewById(R.id.textViewConnected);
         textViewRoom=(TextView)findViewById(R.id.textViewRoom);
@@ -72,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         Receive r=new Receive();
         r.execute();
         getWifiInformation();
+        MusicActivity musicActivity;
 
 
 
@@ -92,8 +103,6 @@ public class MainActivity extends AppCompatActivity {
         running=true;
         RealTime t=new RealTime();
         t.start();
-
-
 
     }
 
@@ -155,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     });
-                    Thread.sleep(5000);
+                    Thread.sleep(5000);//mettere 5 sec
                 }catch(Exception e){
 
                     e.printStackTrace();
@@ -216,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Object object = objectInput.readObject();
                         list = (ArrayList<Object>) object;
+                        Log.d("mytag","Music received!");
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -226,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
                 for(int i=0; i<list.size(); i++) {
                     arrayMusic.add(list.get(i));
                 }
+
 
             }catch(Exception e){
 
@@ -272,11 +283,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void statusCheck() {
 
-
+        LocationManager manager= (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-
             buildAlertMessageNoGps();
 
+        }
+    }
+    private void turnGPSOn(){
+        String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+        if(!provider.contains("gps")){
+            final Intent poke = new Intent();
+            poke.setClassName("com.android.settings","com.android.settings.widget.SettingsAppWidgetProvider");
+            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+            poke.setData(Uri.parse("3"));
+            sendBroadcast(poke);
         }
     }
 

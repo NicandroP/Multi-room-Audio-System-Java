@@ -30,7 +30,6 @@ import static com.example.wifisignal.MainActivity.out;
 public class MusicActivity extends AppCompatActivity {
 
     ListView listView;
-    private ArrayAdapter adapter;
     private ArrayList<String> stringMusic=new ArrayList<>();
     ArrayList<String> songToPlay=new ArrayList<>();
 
