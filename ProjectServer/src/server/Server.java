@@ -56,6 +56,7 @@ public class Server {
 	static int port=3345;
 	private JFrame frame;
 	static StringBuilder sb = new StringBuilder();
+	static String wifis="FASTWEB-fd6deP;WOW FI - FASTWEB;D-Link-EAAFB1;INCENTIVE;Vodafone-WiFi;FASTWEB-H6D6XP;Grillandia;ginger;CLASSE(Stanza)\n";
 	static String level;
 	static String ssid;
 	static String res="";
@@ -87,6 +88,7 @@ public class Server {
 				try {
 					Server window = new Server();
 					window.frame.setVisible(true);
+					sb.append(wifis);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -277,7 +279,7 @@ public class Server {
 							
 					}
 				}else {
-					int[] inputArray=new int[] {-100,-100,-100,-100,-100,-100,-100,-100,-100};//array da dare al ML
+					int[] inputArray=new int[] {-100,-100,-100,-100,-100,-100,-100,-100};//array da dare al ML
 					String[] string= msgin.toString().split(",");
 					int n= string.length;
 					int i=0;
@@ -286,8 +288,8 @@ public class Server {
 						
 						
 						String[] string2= string[i].split(":");
-						level= string2[1];
 						ssid= string2[0];
+						level= string2[1];
 						
 						if(i==0) {//tolto la parentesi dal primo ssid
 							StringBuilder sb2 = new StringBuilder(ssid);
@@ -317,56 +319,24 @@ public class Server {
 						case " Vodafone-WiFi ":
 							inputArray[4]=Integer.parseInt(level);
 							break;
-						case " TIM_MF920V_97FE ":
+						case " FASTWEB-H6D6XP ":
 							inputArray[5]=Integer.parseInt(level);
 							break;
-						case " FASTWEB-H6D6XP ":
+						case " Grillandia ":
 							inputArray[6]=Integer.parseInt(level);
 							break;
-						case " Grillandia ":
-							inputArray[7]=Integer.parseInt(level);
-							break;
 						case " ginger ":
-							inputArray[8]=Integer.parseInt(level);
+							inputArray[7]=Integer.parseInt(level);
 							break;
 						
 							
 						}
 						
 						
-						
-						if(i!=(n-1)) {
-							sb.append(ssid);
-						    sb.append(',');
-						    sb.append(level);
-	
-						}else{
-							sb.append(ssid);
-						    sb.append(',');
-						    sb.append(level);
-					    	sb.append('\n');
-					     }
-					      
-						 if(i==(n-1)) {
-							 sb.append('\n');
-						 }
-					 
-					      res=sb.toString();
 					      i++;
 					      
 					}
 					
-					
-					
-					
-					for(int j=0;j<inputArray.length;j++) {
-				    	if(j==inputArray.length-1) {
-				    		System.out.println(inputArray[j]);
-				    	}else {
-				    		System.out.print(inputArray[j]+", ");
-				    	}
-				    	
-				    }
 					
 					
 					//provare ad inserire qui
@@ -374,7 +344,11 @@ public class Server {
 					for (int k = 0; k < inputArray.length; k++) {
 			            strArray[k] = String.valueOf(inputArray[k]);
 			        }
-					String arg = String.join(",", strArray);
+					String arg = String.join(";", strArray);
+					sb.append(arg+"\n");
+					
+					
+					System.out.println(arg);
 					try {
 						long startTime = System.currentTimeMillis();
 						ProcessBuilder builder=new ProcessBuilder("python","C:\\Users\\nican\\\\GitCAProject\\Multiroom\\ProjectServer\\training.py", arg);
@@ -449,17 +423,19 @@ public class Server {
 					}
 					
 					
-				    
-				    try (PrintWriter writer = new PrintWriter(new File("wifiScan.csv"))) {      //COMMENTATO PERCHÈ NON CI SERVE PIÙ
-				    	
-				    	writer.append(res);
-					}catch (FileNotFoundException e) {
-					      System.out.println(e.getMessage());
-					}
 				}
 				
 				
 			}
+			
+			/*try (PrintWriter writer = new PrintWriter(new File("wifiScan.csv"))) {      //COMMENTATO PERCHÈ NON CI SERVE PIÙ
+		    	
+		    	writer.append(sb.toString());
+			}catch (FileNotFoundException e) {
+			      System.out.println(e.getMessage());
+			}*/
+			
+			
 			try {
 				msgin=in.readUTF();
 			}catch(IOException e) {

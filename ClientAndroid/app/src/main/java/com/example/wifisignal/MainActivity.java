@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
                             room="Kitchen";
                             break;
                         case "3":
-                            room="Landing";
+                            room="Toilet";
                             break;
 
                     }

@@ -20,19 +20,19 @@ from sklearn.preprocessing import StandardScaler
 from sklearn import tree
 from sklearn.tree import DecisionTreeClassifier
   
-data_set= pd.read_csv('C:/Users/nican/GitCAProject/Multiroom/ProjectServer/MatriceSegnali3stanzePianerottolo.csv', header=None, delimiter=";",  skiprows=1)  
+data_set= pd.read_csv('C:/Users/nican/GitCAProject/Multiroom/ProjectServer/Matrix.csv', header=None, delimiter=";",  skiprows=1)  
 
 data_set= data_set.to_numpy()
 
 n_samples, n_features= data_set.shape
 n_features -=1
-X= data_set[0:215,0:n_features]
-Y= data_set[0:215,n_features]
+X= data_set[0:389,0:n_features]
+Y= data_set[0:389,n_features]
 
 #print(X,Y)  
 
 from sklearn.model_selection import train_test_split  
-X_train, X_test, Y_train, Y_test = train_test_split(X,Y, test_size= 0.2,random_state=3)
+X_train, X_test, Y_train, Y_test = train_test_split(X,Y, test_size= 0.2,random_state=4)
 
 
 """ # Spot Check Algorithms
@@ -66,7 +66,7 @@ X_test= st_x.transform(X_test)
 
 
 
-model = KNeighborsClassifier(n_neighbors=15)
+model = KNeighborsClassifier(n_neighbors=2)
 model.fit(X_train, Y_train)
 predictions = model.predict(X_test)
 
@@ -78,8 +78,8 @@ pickle.dump(model, open(filename, 'wb')) #mettere protocol=2 se si vuole far fun
 
 """ print(accuracy_score(Y_test, predictions))
 print(confusion_matrix(Y_test, predictions))
-print(classification_report(Y_test, predictions))
- """
+print(classification_report(Y_test, predictions)) """
+ 
 #tree.plot_tree(model)
 
 #loaded_model = pickle.load(open('C:/Users/nican/GitCAProject/Multiroom/ProjectServer/finalized_model.sav', 'rb'))
@@ -126,12 +126,9 @@ pyplot.show() """
 #print(loaded_model.predict(prova))
 
 
-
-
-
 import sys
 array=sys.argv[1]
-a_list=array.split(",")
+a_list=array.split(";")
 map_object = map(int, a_list)
 list_of_integers = list(map_object)
 integers=nm.array([list_of_integers])
