@@ -1,5 +1,6 @@
 package com.example.wifisignal;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +9,9 @@ import androidx.core.content.ContextCompat;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.net.wifi.ScanResult;
@@ -16,8 +20,11 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.TextPaint;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -35,11 +42,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView listView;
-    private ArrayList<String> stringMusic=new ArrayList<>();
-    ArrayList<String> songToPlay=new ArrayList<>();
 
 
+
+    private ListView listView;
+    private Button musicBtn;
     private TextView textViewWaiting;
     private TextView textViewConnected;
     private TextView textViewRoom;
@@ -58,31 +65,39 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Object> arrayMusic=new ArrayList<>();
     static String room;
     static Boolean serverActive=true;
+    static int count=0;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        listView=(ListView)findViewById(R.id.listView);
-
 
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //button=(Button)findViewById(R.id.getWifiBtn);
-
+        musicBtn=(Button)findViewById(R.id.musicBtn);
+        listView=(ListView)findViewById(R.id.listView);
         textViewWaiting=(TextView)findViewById(R.id.textViewWaiting);
         textViewConnected=(TextView)findViewById(R.id.textViewConnected);
         textViewRoom=(TextView)findViewById(R.id.textViewRoom);
         wifiManager=(WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-        //adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,arrayList);
+        adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,arrayList);
         statusCheck();
         Connect conn=new Connect();
         conn.execute();
         Receive r=new Receive();
         r.execute();
         getWifiInformation();
-        MusicActivity musicActivity;
+
+        TextPaint paint = textViewRoom.getPaint();
+        float width = paint.measureText((String) textViewRoom.getText());
+        Shader textShader = new LinearGradient(0, 0, width, textViewRoom.getTextSize(),
+                new int[]{
+                        Color.parseColor("#FFBB86FC"),
+                        Color.parseColor("#8D41EA"),
+                }, null, Shader.TileMode.CLAMP);
+        textViewRoom.getPaint().setShader(textShader);
 
 
 
@@ -137,12 +152,12 @@ public class MainActivity extends AppCompatActivity {
                             arrayList.clear();
                             wifiManager.startScan();
                             results=wifiManager.getScanResults();
-                            //listView.setAdapter(adapter);
+                            listView.setAdapter(adapter);
                             sb.delete(0,sb.length());
                             for(ScanResult result: results){
                                 //cancellare quest'if se si vogliono registrare tutte le frequenze(come all'inizio)
-                                if(result.SSID.equals("FASTWEB-fd6deP") || result.SSID.equals("WOW FI - FASTWEB") ||
-                                        result.SSID.equals("D-Link-EAAFB1") || result.SSID.equals("INCENTIVE") || result.SSID.equals("Vodafone-WiFi")){
+                                //if(result.SSID.equals("FASTWEB-fd6deP") || result.SSID.equals("WOW FI - FASTWEB") ||
+                                  //      result.SSID.equals("D-Link-EAAFB1") || result.SSID.equals("INCENTIVE") || result.SSID.equals("Vodafone-WiFi")){
                                     //if per non salvare i doppioni
                                     if(!arrayCheck.contains(result.SSID)){
                                         arrayCheck.add(result.SSID);
@@ -150,12 +165,18 @@ public class MainActivity extends AppCompatActivity {
                                         sb.append(result.SSID).append(":").append(result.level).append(",");
                                     }
 
-                                }
+                                //}
 
                             }
                             //Log.d("mytag",arrayList.toString());
+                            //if(count>0){//cosi no invio il primo
+
                             Send snd=new Send();
                             snd.execute();
+                            //}
+                            //count++;
+
+
                             if(serverActive==false){
                                 stopWifi();
                             }
@@ -238,6 +259,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
+
+
+
             }catch(Exception e){
 
                 e.printStackTrace();
@@ -258,7 +282,19 @@ public class MainActivity extends AppCompatActivity {
                     out.writeUTF(String.valueOf(arrayList));
                     room= in.readUTF();
                     room= String.valueOf(room.charAt(1));
-                    setText(textViewRoom,"You are in the room: "+room);
+                    switch (room){
+                        case "1":
+                            room="Bedroom";
+                            break;
+                        case "2":
+                            room="Kitchen";
+                            break;
+                        case "3":
+                            room="Landing";
+                            break;
+
+                    }
+                    setText(textViewRoom,"Your room: "+room);
                 }
 
 
@@ -289,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-    private void turnGPSOn(){
+    /*private void turnGPSOn(){
         String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
         if(!provider.contains("gps")){
             final Intent poke = new Intent();
@@ -298,7 +334,7 @@ public class MainActivity extends AppCompatActivity {
             poke.setData(Uri.parse("3"));
             sendBroadcast(poke);
         }
-    }
+    }*/
 
     private void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -317,6 +353,7 @@ public class MainActivity extends AppCompatActivity {
         final AlertDialog alert = builder.create();
         alert.show();
     }
+
 
 
 }

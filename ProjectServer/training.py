@@ -20,7 +20,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn import tree
 from sklearn.tree import DecisionTreeClassifier
   
-data_set= pd.read_csv('C:/Users/nican/GitCAProject/Multiroom/ProjectServer/MatriceSegnali3.csv', header=None, delimiter=";",  skiprows=1)  
+data_set= pd.read_csv('C:/Users/nican/GitCAProject/Multiroom/ProjectServer/MatriceSegnali3stanzePianerottolo.csv', header=None, delimiter=";",  skiprows=1)  
 
 data_set= data_set.to_numpy()
 
@@ -66,7 +66,7 @@ X_test= st_x.transform(X_test)
 
 
 
-model = KNeighborsClassifier(n_neighbors=25)
+model = KNeighborsClassifier(n_neighbors=15)
 model.fit(X_train, Y_train)
 predictions = model.predict(X_test)
 
@@ -78,17 +78,17 @@ pickle.dump(model, open(filename, 'wb')) #mettere protocol=2 se si vuole far fun
 
 """ print(accuracy_score(Y_test, predictions))
 print(confusion_matrix(Y_test, predictions))
-print(classification_report(Y_test, predictions))  """
-
+print(classification_report(Y_test, predictions))
+ """
 #tree.plot_tree(model)
 
 #loaded_model = pickle.load(open('C:/Users/nican/GitCAProject/Multiroom/ProjectServer/finalized_model.sav', 'rb'))
 #prova= nm.array([[-44,-41,-80,-72,-82]])
 #print(loaded_model.predict(integers))
 
-""" prova= nm.array([[-63, -64, 0, -75, -89]])
+""" prova= nm.array([[-63, -64, 0, -75, -89,-67]])
 #prova=st_x.transform(prova)
-print(model.predict(prova)) """
+print(model.predict(prova)) """ 
 
 
 
@@ -120,8 +120,7 @@ pyplot.plot(range(1, 40), error, color='red', linestyle='dashed', marker='o',
 pyplot.title('Error Rate K Value')
 pyplot.xlabel('K Value')
 pyplot.ylabel('Mean Error')
-pyplot.show() """ 
- 
+pyplot.show() """
 #loaded_model = pickle.load(open(filename, 'rb'))
 #result = loaded_model.score(X_test, Y_test)
 #print(loaded_model.predict(prova))
@@ -135,10 +134,6 @@ array=sys.argv[1]
 a_list=array.split(",")
 map_object = map(int, a_list)
 list_of_integers = list(map_object)
-for i in range(0,6):
-    if list_of_integers[i]==0:
-        list_of_integers[i]=-100
-
 integers=nm.array([list_of_integers])
 integers= st_x.transform(integers)
 print(model.predict(integers))

@@ -48,7 +48,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JProgressBar;
 
-
 public class Server {
 	static ServerSocket ss;
 	static Socket s;
@@ -88,7 +87,6 @@ public class Server {
 				try {
 					Server window = new Server();
 					window.frame.setVisible(true);
-					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -223,6 +221,7 @@ public class Server {
 	
 	
 	private static void receive() throws IOException {
+		
 		Boolean started=false;
 		long clipTime=0;
 		String songName="";
@@ -278,7 +277,7 @@ public class Server {
 							
 					}
 				}else {
-					int[] inputArray=new int[] {0,0,0,0,0};//array da dare al ML
+					int[] inputArray=new int[] {-100,-100,-100,-100,-100,-100,-100,-100,-100};//array da dare al ML
 					String[] string= msgin.toString().split(",");
 					int n= string.length;
 					int i=0;
@@ -314,10 +313,26 @@ public class Server {
 						case " INCENTIVE ":
 							inputArray[3]=Integer.parseInt(level);
 							break;
+
 						case " Vodafone-WiFi ":
 							inputArray[4]=Integer.parseInt(level);
 							break;
+						case " TIM_MF920V_97FE ":
+							inputArray[5]=Integer.parseInt(level);
+							break;
+						case " FASTWEB-H6D6XP ":
+							inputArray[6]=Integer.parseInt(level);
+							break;
+						case " Grillandia ":
+							inputArray[7]=Integer.parseInt(level);
+							break;
+						case " ginger ":
+							inputArray[8]=Integer.parseInt(level);
+							break;
+						
+							
 						}
+						
 						
 						
 						if(i!=(n-1)) {
@@ -362,7 +377,7 @@ public class Server {
 					String arg = String.join(",", strArray);
 					try {
 						long startTime = System.currentTimeMillis();
-						ProcessBuilder builder=new ProcessBuilder("python","C:\\Users\\nican\\\\GitCAProject\\Multiroom\\ProjectServer\\training2stanze.py", arg);
+						ProcessBuilder builder=new ProcessBuilder("python","C:\\Users\\nican\\\\GitCAProject\\Multiroom\\ProjectServer\\training.py", arg);
 						Process process=builder.start();
 						
 						BufferedReader reader= new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -409,10 +424,10 @@ public class Server {
 								}
 								
 								break;
-							/*case "[3]":
+							case "[3]":
 								if(room!=3) {
 									try {
-										//Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\connectForceFree.vbs");
+										Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\connectForceFree.vbs");
 										System.out.println("Playing from FreeBuds audio speakers");
 										room=3;
 									} catch (IOException e1) {
@@ -421,7 +436,7 @@ public class Server {
 									}
 								}
 								
-								break;*/
+								break;
 							}
 						}
 						
@@ -435,12 +450,12 @@ public class Server {
 					
 					
 				    
-				    /*try (PrintWriter writer = new PrintWriter(new File("wifiScan.csv"))) {      //COMMENTATO PERCHÈ NON CI SERVE PIÙ
+				    try (PrintWriter writer = new PrintWriter(new File("wifiScan.csv"))) {      //COMMENTATO PERCHÈ NON CI SERVE PIÙ
 				    	
 				    	writer.append(res);
 					}catch (FileNotFoundException e) {
 					      System.out.println(e.getMessage());
-					}*/
+					}
 				}
 				
 				
@@ -450,7 +465,10 @@ public class Server {
 			}catch(IOException e) {
 				System.out.println("\nClosing the connection");
 				s.close();
-				clip.stop();
+				if(started==true) {
+					clip.stop();
+				}
+				msgin="";
 				System.out.println("System closed.\n");
 				songLabel.setText("Waiting for client...");
 				startServer();
@@ -461,7 +479,10 @@ public class Server {
 		    			
 		}
 		System.out.println("\nClosing the connection");
-		clip.stop();
+		if(started==true) {
+			clip.stop();
+		}
+		msgin="";
 		s.close();//qui non si dovrebbe chiudere la connessione
 		songLabel.setText("Waiting for client...");
 		startServer();
