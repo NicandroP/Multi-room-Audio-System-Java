@@ -108,9 +108,7 @@ public class MainActivity extends AppCompatActivity {
         stopWifi();
         super.onDestroy();
 
-
     }
-
 
 
     public void getWifiInformation() {//ho cambiato e ho tolto View view dal parametro funzione
@@ -132,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     public void music(View view) {
         startActivity(new Intent(MainActivity.this,MusicActivity.class));
 
@@ -152,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                             arrayList.clear();
                             wifiManager.startScan();
                             results=wifiManager.getScanResults();
-                            listView.setAdapter(adapter);
+                            //listView.setAdapter(adapter);
                             sb.delete(0,sb.length());
                             for(ScanResult result: results){
                                 //cancellare quest'if se si vogliono registrare tutte le frequenze(come all'inizio)
@@ -181,8 +178,6 @@ public class MainActivity extends AppCompatActivity {
                                 stopWifi();
                             }
 
-
-
                         }
                     });
                     Thread.sleep(5000);//mettere 5 sec
@@ -193,6 +188,24 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
+        }
+    }
+    class Connect extends AsyncTask<Void,Void,Void>{
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try{
+                s=new Socket(ip,port);
+                in=new DataInputStream(s.getInputStream());
+                out=new DataOutputStream(s.getOutputStream());
+                Log.d("mytag","Connection succesfull");
+                textViewWaiting.setVisibility(View.INVISIBLE);
+                textViewConnected.setVisibility(View.VISIBLE);
+            }catch(Exception e){
+
+                e.printStackTrace();
+            }
+
+            return null;
         }
     }
 
@@ -214,25 +227,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    class Connect extends AsyncTask<Void,Void,Void>{
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try{
-                s=new Socket(ip,port);
-                in=new DataInputStream(s.getInputStream());
-                out=new DataOutputStream(s.getOutputStream());
-                Log.d("mytag","Connection succesfull");
-                textViewWaiting.setVisibility(View.INVISIBLE);
-                textViewConnected.setVisibility(View.VISIBLE);
-            }catch(Exception e){
 
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-    }
     class Receive extends AsyncTask<Void,Void,Void> {
 
         @Override
@@ -257,10 +252,6 @@ public class MainActivity extends AppCompatActivity {
                 for(int i=0; i<list.size(); i++) {
                     arrayMusic.add(list.get(i));
                 }
-
-
-
-
 
             }catch(Exception e){
 
@@ -290,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
                             room="Kitchen";
                             break;
                         case "3":
-                            room="Toilet";
+                            room="Landing";
                             break;
 
                     }

@@ -192,7 +192,6 @@ public class Server {
 		
 		
 		
-		
 		titleLabel = new JLabel("Multi-room Server");
 		titleLabel.setForeground(Color.WHITE);
 		titleLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -286,7 +285,6 @@ public class Server {
 					
 					while(i<n) {
 						
-						
 						String[] string2= string[i].split(":");
 						ssid= string2[0];
 						level= string2[1];
@@ -329,15 +327,10 @@ public class Server {
 							inputArray[7]=Integer.parseInt(level);
 							break;
 						
-							
 						}
-						
-						
 					      i++;
 					      
 					}
-					
-					
 					
 					//provare ad inserire qui
 					String[] strArray = new String[inputArray.length];
@@ -359,15 +352,14 @@ public class Server {
 						BufferedReader readers= new BufferedReader(new InputStreamReader(process.getErrorStream()));
 						
 						long endTime = System.currentTimeMillis();
-						long seconds = (endTime - startTime);
-						//System.out.println("Programma eseguito in " + seconds + " millisecondi");
+						long milliSeconds = (endTime - startTime);
+						System.out.println("Program executed in " + milliSeconds + " millisecondi");
 						
 						String lines=null;
 						while((lines=reader.readLine())!=null) {
 							System.out.println(lines);
 							
 							out.writeUTF(lines);
-							
 							
 							switch(lines) {
 							case "[1]":
@@ -428,12 +420,12 @@ public class Server {
 				
 			}
 			
-			/*try (PrintWriter writer = new PrintWriter(new File("wifiScan.csv"))) {      //COMMENTATO PERCHÈ NON CI SERVE PIÙ
+			try (PrintWriter writer = new PrintWriter(new File("wifiScan.csv"))) {      //COMMENTATO PERCHÈ NON CI SERVE PIÙ
 		    	
 		    	writer.append(sb.toString());
 			}catch (FileNotFoundException e) {
 			      System.out.println(e.getMessage());
-			}*/
+			}
 			
 			
 			try {
@@ -480,8 +472,6 @@ public class Server {
 		//progressBar.setVisible(true);
 		clip.open(audioStream);
 		clip.start();
-		
-		
 		
 		
 	}
