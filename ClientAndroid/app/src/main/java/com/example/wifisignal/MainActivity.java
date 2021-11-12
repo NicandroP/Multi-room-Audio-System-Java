@@ -66,12 +66,12 @@ public class MainActivity extends AppCompatActivity {
     static String room;
     static Boolean serverActive=true;
     static int count=0;
-
-
+    static long startTime;
+    static long media=0;
+    static int counter=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
 
         super.onCreate(savedInstanceState);
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void getWifiInformation() {//ho cambiato e ho tolto View view dal parametro funzione
+    public void getWifiInformation() {// è necessario richiamare realtime in un'altra funzione???????
 
         running=true;
         RealTime t=new RealTime();
@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             ArrayList<String> arrayCheck=new ArrayList<>();//array per controllare i doppioni
                             arrayList.clear();
+                            startTime = System.currentTimeMillis();
                             wifiManager.startScan();
                             results=wifiManager.getScanResults();
                             //listView.setAdapter(adapter);
@@ -166,12 +167,12 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                             //Log.d("mytag",arrayList.toString());
-                            //if(count>0){//cosi no invio il primo
+                            if(count>0){//cosi no invio il primo
 
-                            Send snd=new Send();
-                            snd.execute();
-                            //}
-                            //count++;
+                                Send snd=new Send();
+                                snd.execute();
+                            }
+                            count++;
 
 
                             if(serverActive==false){
@@ -272,6 +273,13 @@ public class MainActivity extends AppCompatActivity {
                 if(arrayList.size()!=0){
                     out.writeUTF(String.valueOf(arrayList));
                     room= in.readUTF();
+                    long endTime = System.currentTimeMillis();
+                    long milliSeconds = (endTime - startTime);
+                    media+=milliSeconds;
+                    counter++;
+                    Log.d("mytag","Program executed in " + milliSeconds/1000.0 + " seconds");
+                    Log.d("mytag","Mean: "+(media/counter)/1000.0+" seconds");
+
                     room= String.valueOf(room.charAt(1));
                     switch (room){
                         case "1":

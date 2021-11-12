@@ -36,7 +36,6 @@ import java.util.TimerTask;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.Color;
@@ -103,7 +102,6 @@ public class Server {
 		for(int i=0;i<list.length;i++) {
 			arrayMusic.add(list[i]);
 		}
-		
 		
 		System.out.println("Starting the server");
 		ss=new ServerSocket(port);
@@ -189,7 +187,6 @@ public class Server {
 		lblMinimize.setBounds(488,6,40,45);
 		lblMinimize.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		frame.getContentPane().add(lblMinimize);
-		
 		
 		
 		titleLabel = new JLabel("Multi-room Server");
@@ -366,7 +363,7 @@ public class Server {
 								if(room!=1) {
 									try {
 										Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\disconnectSrs.vbs");
-										//Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\disconnectFree.vbs");
+										Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\disconnectFree.vbs");
 										System.out.println("Playing from pc audio speakers");
 										room=1;
 									} catch (IOException e1) {
@@ -420,12 +417,12 @@ public class Server {
 				
 			}
 			
-			try (PrintWriter writer = new PrintWriter(new File("wifiScan.csv"))) {      //COMMENTATO PERCHÈ NON CI SERVE PIÙ
+			/*try (PrintWriter writer = new PrintWriter(new File("wifiScan.csv"))) {
 		    	
 		    	writer.append(sb.toString());
 			}catch (FileNotFoundException e) {
 			      System.out.println(e.getMessage());
-			}
+			}*/
 			
 			
 			try {
@@ -451,7 +448,7 @@ public class Server {
 			clip.stop();
 		}
 		msgin="";
-		s.close();//qui non si dovrebbe chiudere la connessione
+		s.close();
 		songLabel.setText("Waiting for client...");
 		startServer();
 			
@@ -473,9 +470,7 @@ public class Server {
 		clip.open(audioStream);
 		clip.start();
 		
-		
 	}
-	
 }
 
 
