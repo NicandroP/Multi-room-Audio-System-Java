@@ -1,10 +1,7 @@
 package com.example.wifisignal;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,19 +10,13 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.TextPaint;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -42,13 +33,14 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
+//no firewall, autorizzazione localizzazione in app e gps precisione elevata;;; installazione librerie python
 
 
     private ListView listView;
     private Button musicBtn;
     private TextView textViewWaiting;
     private TextView textViewConnected;
+    private TextView textViewDisconnected;
     private TextView textViewRoom;
     private WifiManager wifiManager;
     private List<ScanResult> results;
@@ -80,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         listView=(ListView)findViewById(R.id.listView);
         textViewWaiting=(TextView)findViewById(R.id.textViewWaiting);
         textViewConnected=(TextView)findViewById(R.id.textViewConnected);
+        textViewDisconnected=(TextView)findViewById(R.id.textViewDisconnected);
         textViewRoom=(TextView)findViewById(R.id.textViewRoom);
         wifiManager=(WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
         adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,arrayList);
@@ -124,8 +117,7 @@ public class MainActivity extends AppCompatActivity {
         Disconnect disc=new Disconnect();
         disc.execute();
         textViewConnected.setVisibility(View.INVISIBLE);
-        textViewWaiting.setText("Server disconnected");
-        textViewWaiting.setVisibility(View.VISIBLE);
+        textViewDisconnected.setVisibility(View.VISIBLE);
         Log.d("mytag","System disconnected.");
 
     }
@@ -166,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
                                 //}
 
                             }
-                            //Log.d("mytag",arrayList.toString());
                             if(count>0){//cosi no invio il primo
 
                                 Send snd=new Send();
@@ -181,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     });
-                    Thread.sleep(5000);//mettere 5 sec
+                    Thread.sleep(5000);
                 }catch(Exception e){
 
                     e.printStackTrace();
@@ -192,6 +183,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     class Connect extends AsyncTask<Void,Void,Void>{
+
+
         @Override
         protected Void doInBackground(Void... voids) {
             try{
@@ -201,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("mytag","Connection succesfull");
                 textViewWaiting.setVisibility(View.INVISIBLE);
                 textViewConnected.setVisibility(View.VISIBLE);
+
             }catch(Exception e){
 
                 e.printStackTrace();
@@ -209,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+
 
     class Disconnect extends AsyncTask<Void,Void,Void>{
 
@@ -288,9 +283,9 @@ public class MainActivity extends AppCompatActivity {
                         case "2":
                             room="Kitchen";
                             break;
-                        case "3":
+                        /*case "3":
                             room="Landing";
-                            break;
+                            break;*/
 
                     }
                     setText(textViewRoom,"Your room: "+room);

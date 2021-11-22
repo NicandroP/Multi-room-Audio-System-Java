@@ -329,7 +329,6 @@ public class Server {
 					      
 					}
 					
-					//provare ad inserire qui
 					String[] strArray = new String[inputArray.length];
 					for (int k = 0; k < inputArray.length; k++) {
 			            strArray[k] = String.valueOf(inputArray[k]);
@@ -350,7 +349,7 @@ public class Server {
 						
 						long endTime = System.currentTimeMillis();
 						long milliSeconds = (endTime - startTime);
-						System.out.println("Program executed in " + milliSeconds + " millisecondi");
+						
 						
 						String lines=null;
 						while((lines=reader.readLine())!=null) {
@@ -363,7 +362,6 @@ public class Server {
 								if(room!=1) {
 									try {
 										Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\disconnectSrs.vbs");
-										Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\disconnectFree.vbs");
 										System.out.println("Playing from pc audio speakers");
 										room=1;
 									} catch (IOException e1) {
@@ -387,11 +385,11 @@ public class Server {
 								}
 								
 								break;
-							case "[3]":
+							/*case "[3]":
 								if(room!=3) {
 									try {
-										Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\connectForceFree.vbs");
-										System.out.println("Playing from FreeBuds audio speakers");
+										Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\connectForceMuzili.vbs");
+										System.out.println("Playing from Muzili audio speakers");
 										room=3;
 									} catch (IOException e1) {
 										// TODO Auto-generated catch block
@@ -399,7 +397,7 @@ public class Server {
 									}
 								}
 								
-								break;
+								break;*/
 							}
 						}
 						
