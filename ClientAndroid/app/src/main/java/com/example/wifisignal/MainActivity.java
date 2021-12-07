@@ -30,11 +30,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-
+//In order to make the system works it is necessary to: deactivate the PC firewall, installate the python libraries on the PC, authorize the localization in the Android app and activate the high accuracy gps.
 public class MainActivity extends AppCompatActivity {
-
-//no firewall, autorizzazione localizzazione in app e gps precisione elevata;;; installazione librerie python
-
 
     private ListView listView;
     private Button musicBtn;
@@ -65,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         musicBtn=(Button)findViewById(R.id.musicBtn);
@@ -92,8 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 }, null, Shader.TileMode.CLAMP);
         textViewRoom.getPaint().setShader(textShader);
 
-
-
     }
     @Override
     protected void onDestroy () {
@@ -103,8 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    public void getWifiInformation() {// è necessario richiamare realtime in un'altra funzione???????
+    public void getWifiInformation() {
 
         running=true;
         RealTime t=new RealTime();
@@ -126,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this,MusicActivity.class));
 
     }
-
+    //Here we scan the frequencies of the access points nearby and we send them to the server
     class RealTime extends Thread {
         @Override
         public void run() {
@@ -137,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ArrayList<String> arrayCheck=new ArrayList<>();//array per controllare i doppioni
+                            ArrayList<String> arrayCheck=new ArrayList<>();
                             arrayList.clear();
                             startTime = System.currentTimeMillis();
                             wifiManager.startScan();
@@ -145,26 +138,20 @@ public class MainActivity extends AppCompatActivity {
                             //listView.setAdapter(adapter);
                             sb.delete(0,sb.length());
                             for(ScanResult result: results){
-                                //cancellare quest'if se si vogliono registrare tutte le frequenze(come all'inizio)
-                                //if(result.SSID.equals("FASTWEB-fd6deP") || result.SSID.equals("WOW FI - FASTWEB") ||
-                                  //      result.SSID.equals("D-Link-EAAFB1") || result.SSID.equals("INCENTIVE") || result.SSID.equals("Vodafone-WiFi")){
-                                    //if per non salvare i doppioni
+                                    //If to avoid the duplicates
                                     if(!arrayCheck.contains(result.SSID)){
                                         arrayCheck.add(result.SSID);
                                         arrayList.add(result.SSID+" :"+result.level);
                                         sb.append(result.SSID).append(":").append(result.level).append(",");
                                     }
 
-                                //}
-
                             }
-                            if(count>0){//cosi no invio il primo
+                            if(count>0){
 
                                 Send snd=new Send();
                                 snd.execute();
                             }
                             count++;
-
 
                             if(serverActive==false){
                                 stopWifi();
@@ -179,11 +166,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-
         }
     }
+    //This thread inizialize the socket and requires for a connection to the server
     class Connect extends AsyncTask<Void,Void,Void>{
-
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -204,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     class Disconnect extends AsyncTask<Void,Void,Void>{
 
         @Override
@@ -223,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    //This thread is used to receive the music list from the server
     class Receive extends AsyncTask<Void,Void,Void> {
 
         @Override
@@ -258,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //The frequencies acquired before are sent to the server that return the result of the ML
     class Send extends AsyncTask<Void,Void,Void>{
 
         @Override
@@ -283,9 +269,6 @@ public class MainActivity extends AppCompatActivity {
                         case "2":
                             room="Kitchen";
                             break;
-                        /*case "3":
-                            room="Landing";
-                            break;*/
 
                     }
                     setText(textViewRoom,"Your room: "+room);
@@ -309,8 +292,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
+    //The two function statusCheck() and buildAlertMessageNoGps() serve to warn the user that the gps must be active to use the system
     public void statusCheck() {
 
         LocationManager manager= (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -319,16 +301,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-    /*private void turnGPSOn(){
-        String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-        if(!provider.contains("gps")){
-            final Intent poke = new Intent();
-            poke.setClassName("com.android.settings","com.android.settings.widget.SettingsAppWidgetProvider");
-            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
-            poke.setData(Uri.parse("3"));
-            sendBroadcast(poke);
-        }
-    }*/
 
     private void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -347,7 +319,5 @@ public class MainActivity extends AppCompatActivity {
         final AlertDialog alert = builder.create();
         alert.show();
     }
-
-
 
 }

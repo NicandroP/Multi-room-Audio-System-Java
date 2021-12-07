@@ -24,8 +24,7 @@ public class MusicActivity extends AppCompatActivity {
     private ArrayList<String> stringMusic=new ArrayList<>();
     ArrayList<String> songToPlay=new ArrayList<>();
 
-
-
+    //In this activity is created a listView and the songs stored on the SLAC are displayed on the screen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +32,8 @@ public class MusicActivity extends AppCompatActivity {
 
         listView=findViewById(R.id.listViewSong);
 
-
         for(Object path : arrayMusic){
-            String stringSong=path.toString().replace("C:/xampp/htdocs/music/","").replace(".wav","");
+            String stringSong=path.toString().replace("music/","").replace(".wav","");
             stringMusic.add(stringSong);
 
         }
@@ -84,6 +82,7 @@ public class MusicActivity extends AppCompatActivity {
             return contextView;
         }
     }
+    //This thread send the name of the song to play to the server
     class startMusic extends AsyncTask<Void,Void,Void> {
 
         @Override

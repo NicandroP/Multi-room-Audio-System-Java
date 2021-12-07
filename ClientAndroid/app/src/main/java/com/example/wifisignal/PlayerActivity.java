@@ -23,6 +23,7 @@ public class PlayerActivity extends AppCompatActivity {
     ArrayList<String> songToPlay=new ArrayList<>();
     String songName;
 
+    //In this activity we can play or pause the song that we started in the previous activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,6 @@ public class PlayerActivity extends AppCompatActivity {
         Intent i=getIntent();
         songName=i.getStringExtra("songname");
         txtSname.setText(songName);
-
 
     }
 
@@ -63,6 +63,7 @@ public class PlayerActivity extends AppCompatActivity {
         btnPause.setVisibility(View.VISIBLE);
         btnPlay.setVisibility(View.INVISIBLE);
     }
+
     class actionMusic extends AsyncTask<Void,Void,Void> {
 
         @Override

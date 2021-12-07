@@ -2,22 +2,14 @@ package server;
 
 
 import java.awt.EventQueue;
-import java.awt.TextArea;
-import java.awt.TextField;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.io.BufferedReader;
-import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -30,8 +22,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -59,7 +49,7 @@ public class Server {
 	static String level;
 	static String ssid;
 	static String res="";
-	static String path="C:\\xampp\\htdocs\\music";
+	static String path="music";
 	static File f=new File(path);
 	static File[] list=f.listFiles();
 	static File song;
@@ -81,7 +71,6 @@ public class Server {
 	
 	public static void main(String[] args) throws IOException {
 		
-		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -95,7 +84,7 @@ public class Server {
 		});
 		startServer();
 	}
-	
+	//In this function the socket is initialized, and the server wait for the connection from the client
 	private static void startServer() throws IOException {
 		arrayMusic.clear();
 		
@@ -124,12 +113,12 @@ public class Server {
 	public Server() {
 		initialize();
 	}
-	
+	//Here is created the graphic
 	private void initialize() {
 		frame = new JFrame("SERVER");
 		frame.getContentPane().setBackground(new Color(64, 64, 64));
 		frame.getContentPane().setForeground(Color.BLACK);
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\nican\\GitCAProject\\Multiroom\\ClientAndroid\\app\\src\\main\\res\\drawable\\music.png"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("music.png"));
 		frame.setBounds(650, 300, 582, 361);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -152,7 +141,7 @@ public class Server {
 		
 		frameIcon=new JPictureBox();
 		frameIcon.setLocation(10, 6);
-		ImageIcon imgIcon=new ImageIcon("C:\\Users\\nican\\GitCAProject\\Multiroom\\ClientAndroid\\app\\src\\main\\res\\drawable\\music.png");
+		ImageIcon imgIcon=new ImageIcon("music.png");
 		frameIcon.setIcon(imgIcon);
 		frameIcon.setSize(50,50);
 		frame.getContentPane().add(frameIcon);
@@ -173,7 +162,6 @@ public class Server {
 		lblX.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		frame.getContentPane().add(lblX);
 		
-		
 		JLabel lblMinimize=new JLabel("—");
 		lblMinimize.addMouseListener(new MouseAdapter() {
 			@Override
@@ -188,36 +176,16 @@ public class Server {
 		lblMinimize.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		frame.getContentPane().add(lblMinimize);
 		
-		
 		titleLabel = new JLabel("Multi-room Server");
 		titleLabel.setForeground(Color.WHITE);
 		titleLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		titleLabel.setBounds(147, 11, 275, 45);
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(titleLabel);
-		
-		/*progressBar = new JProgressBar();
-		progressBar.setVisible(false);
-		progressBar.setBackground(Color.WHITE);
-		progressBar.setBounds(147, 247, 310, 14);
-		frame.getContentPane().add(progressBar);
-		
-		songDuration = new JLabel("");
-		songDuration.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		songDuration.setForeground(Color.WHITE);
-		songDuration.setBounds(467, 247, 46, 14);
-		frame.getContentPane().add(songDuration);
-		
-		songTiming = new JLabel("");
-		songTiming.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		songTiming.setForeground(Color.WHITE);
-		songTiming.setBounds(105, 247, 46, 14);
-		frame.getContentPane().add(songTiming);*/
-		
-		
+			
 	}
 	
-	
+	//This function receives the input from the client
 	private static void receive() throws IOException {
 		
 		Boolean started=false;
@@ -231,6 +199,7 @@ public class Server {
 			if(msgin!="") {
 				String info=msgin.toString().split(",")[0].replace("[","").replace(" ","");
 				
+				//In this if is managed the reproduction of the music
 				if(info.equals("action")) {
 					String temp=msgin.toString().split(",")[1].replace("[","").substring(1);
 					if(!songName.equals(temp)) {
@@ -274,8 +243,9 @@ public class Server {
 						System.out.println("Song paused");
 							
 					}
+				//Here are managed the frequencies of the access points sent from the client
 				}else {
-					int[] inputArray=new int[] {-100,-100,-100,-100,-100,-100,-100,-100};//array da dare al ML
+					int[] inputArray=new int[] {-100,-100,-100,-100,-100,-100,-100,-100};
 					String[] string= msgin.toString().split(",");
 					int n= string.length;
 					int i=0;
@@ -286,12 +256,12 @@ public class Server {
 						ssid= string2[0];
 						level= string2[1];
 						
-						if(i==0) {//tolto la parentesi dal primo ssid
+						if(i==0) {//Removed the bracket from the first ssid
 							StringBuilder sb2 = new StringBuilder(ssid);
 							sb2.setCharAt(0,' ');
 							ssid=sb2.toString();
 						}
-						if(i+1==n) {//tolgo la parentesi dall'ultimo level
+						if(i+1==n) {//Removed the bracket from the last level
 							StringBuilder sb3 = new StringBuilder(level);
 							sb3.deleteCharAt(sb3.length()-1);
 							level=sb3.toString();
@@ -323,10 +293,8 @@ public class Server {
 						case " ginger ":
 							inputArray[7]=Integer.parseInt(level);
 							break;
-						
 						}
-					      i++;
-					      
+					      i++;  
 					}
 					
 					String[] strArray = new String[inputArray.length];
@@ -336,11 +304,11 @@ public class Server {
 					String arg = String.join(";", strArray);
 					sb.append(arg+"\n");
 					
-					
 					System.out.println(arg);
+					//Frequencies are sent to the ML module and the bluetooth library manages the activation of the speakers
 					try {
 						long startTime = System.currentTimeMillis();
-						ProcessBuilder builder=new ProcessBuilder("python","C:\\Users\\nican\\\\GitCAProject\\Multiroom\\ProjectServer\\training.py", arg);
+						ProcessBuilder builder=new ProcessBuilder("python","training.py", arg);
 						Process process=builder.start();
 						
 						BufferedReader reader= new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -349,7 +317,6 @@ public class Server {
 						
 						long endTime = System.currentTimeMillis();
 						long milliSeconds = (endTime - startTime);
-						
 						
 						String lines=null;
 						while((lines=reader.readLine())!=null) {
@@ -385,19 +352,7 @@ public class Server {
 								}
 								
 								break;
-							/*case "[3]":
-								if(room!=3) {
-									try {
-										Runtime.getRuntime().exec("cmd /c start \"\" C:\\Users\\nican\\GitCAProject\\Multiroom\\win10-bluetooth-headphones-master\\connectForceMuzili.vbs");
-										System.out.println("Playing from Muzili audio speakers");
-										room=3;
-									} catch (IOException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									}
-								}
-								
-								break;*/
+							
 							}
 						}
 						
@@ -408,20 +363,15 @@ public class Server {
 					}catch(Exception e) {
 						e.printStackTrace();
 					}
-					
-					
 				}
-				
-				
 			}
-			
+			//This function serve to acquire new observation 
 			/*try (PrintWriter writer = new PrintWriter(new File("wifiScan.csv"))) {
 		    	
 		    	writer.append(sb.toString());
 			}catch (FileNotFoundException e) {
 			      System.out.println(e.getMessage());
 			}*/
-			
 			
 			try {
 				msgin=in.readUTF();
@@ -436,9 +386,7 @@ public class Server {
 				songLabel.setText("Waiting for client...");
 				startServer();
 				
-				
 			}
-		    
 		    			
 		}
 		System.out.println("\nClosing the connection");
@@ -451,7 +399,7 @@ public class Server {
 		startServer();
 			
 	}
-
+	//The playSong() function takes in input a music File f and make it start.
 	private static void playSong(File f) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		audioStream=AudioSystem.getAudioInputStream(f);
 		clip=AudioSystem.getClip();
@@ -462,9 +410,6 @@ public class Server {
 		minutes=durationInSeconds/60;
 		seconds=durationInSeconds%60;
 		System.out.println("Duration: "+minutes+":"+seconds);
-		//songDuration.setText(minutes+":"+seconds);
-		//songTiming.setText("0:00");
-		//progressBar.setVisible(true);
 		clip.open(audioStream);
 		clip.start();
 		

@@ -61,23 +61,13 @@ model.fit(X_train, Y_train)
 
 """ filename = 'finalized_model.sav'
 pickle.dump(model, open(filename, 'wb')) 
- """
+loaded_model = pickle.load(open('C:/Users/nican/GitCAProject/Multiroom/ProjectServer/finalized_model.sav', 'rb'))
+"""
 
 """ predictions = model.predict(X_test)
 print(accuracy_score(Y_test, predictions))
 print(confusion_matrix(Y_test, predictions))
 print(classification_report(Y_test, predictions)) """
-
- 
-#tree.plot_tree(model)
-#loaded_model = pickle.load(open('C:/Users/nican/GitCAProject/Multiroom/ProjectServer/finalized_model.sav', 'rb'))
-#prova= nm.array([[-44,-41,-80,-72,-82]])
-#print(loaded_model.predict(integers))
-
-""" prova= nm.array([[-63, -64, 0, -75, -89,-67]])
-prova=st_x.transform(prova)
-print(model.predict(prova)) """ 
-
 
 
 """ error = []
@@ -96,9 +86,6 @@ pyplot.xlabel('K Value')
 pyplot.ylabel('Mean Error')
 pyplot.show() """
 
-#loaded_model = pickle.load(open(filename, 'rb'))
-#result = loaded_model.score(X_test, Y_test)
-#print(loaded_model.predict(prova))
 
 import sys
 array=sys.argv[1]
