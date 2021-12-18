@@ -49,36 +49,10 @@ public class PlayerActivity extends AppCompatActivity {
 
 
 
-        SetRoom t=new SetRoom();
-        t.start();
-
 
 
     }
-    class SetRoom extends Thread {
-        @Override
-        public void run() {
-            while(true){
-                try {
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            if (room != "") {
-                                txtRoom.setText(room);
-                                txtRoom.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    });
-                    Thread.sleep(5000);
-                } catch (Exception e) {
-
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     public void pause(View view) {
         String action="pause";
