@@ -33,7 +33,7 @@ public class MusicActivity extends AppCompatActivity {
         listView=findViewById(R.id.listViewSong);
 
         for(Object path : arrayMusic){
-            String stringSong=path.toString().replace("music/","").replace(".wav","");
+            String stringSong=path.toString().replace("C:/Users/nican/GitCAProject/Multiroom/ProjectServer/music/","").replace(".wav","");
             stringMusic.add(stringSong);
 
         }

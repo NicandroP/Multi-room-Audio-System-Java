@@ -49,7 +49,7 @@ public class Server {
 	static String level;
 	static String ssid;
 	static String res="";
-	static String path="music";
+	static String path="C:\\Users\\nican\\GitCAProject\\Multiroom\\ProjectServer\\music";
 	static File f=new File(path);
 	static File[] list=f.listFiles();
 	static File song;
@@ -118,7 +118,7 @@ public class Server {
 		frame = new JFrame("SERVER");
 		frame.getContentPane().setBackground(new Color(64, 64, 64));
 		frame.getContentPane().setForeground(Color.BLACK);
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("music.png"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\nican\\GitCAProject\\Multiroom\\ProjectServer\\music.png"));
 		frame.setBounds(650, 300, 582, 361);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -141,7 +141,7 @@ public class Server {
 		
 		frameIcon=new JPictureBox();
 		frameIcon.setLocation(10, 6);
-		ImageIcon imgIcon=new ImageIcon("music.png");
+		ImageIcon imgIcon=new ImageIcon("C:\\Users\\nican\\GitCAProject\\Multiroom\\ProjectServer\\music.png");
 		frameIcon.setIcon(imgIcon);
 		frameIcon.setSize(50,50);
 		frame.getContentPane().add(frameIcon);
@@ -308,7 +308,7 @@ public class Server {
 					//Frequencies are sent to the ML module and the bluetooth library manages the activation of the speakers
 					try {
 						long startTime = System.currentTimeMillis();
-						ProcessBuilder builder=new ProcessBuilder("python","training.py", arg);
+						ProcessBuilder builder=new ProcessBuilder("python","C:\\Users\\nican\\GitCAProject\\Multiroom\\ProjectServer\\training.py", arg);
 						Process process=builder.start();
 						
 						BufferedReader reader= new BufferedReader(new InputStreamReader(process.getInputStream()));

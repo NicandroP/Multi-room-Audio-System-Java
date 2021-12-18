@@ -1,7 +1,6 @@
 import numpy as nm  
 import pandas as pd
 from pandas import read_csv
-from pandas.plotting import scatter_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import StratifiedKFold
@@ -24,6 +23,7 @@ n_features -=1
 X= data_set[0:n_samples,0:n_features]
 Y= data_set[0:n_samples,n_features]
 
+
 from sklearn.model_selection import train_test_split  
 X_train, X_test, Y_train, Y_test = train_test_split(X,Y, test_size= 0.2,random_state=4)
 
@@ -41,7 +41,7 @@ names = []
 
 for name, model in models:
 	kfold = StratifiedKFold(n_splits=10, random_state=1, shuffle=True)
-	cv_results = cross_val_score(model, X_train, Y_train, cv=kfold, scoring='accuracy')
+	cv_results = cross_val_score(model, X, Y, cv=kfold, scoring='accuracy')
 	results.append(cv_results)
 	names.append(name)
 	print('%s: %f (%f)' % (name, cv_results.mean(), cv_results.std()))
@@ -51,7 +51,7 @@ pyplot.title('Algorithm Comparison')
 pyplot.show() """
 
 
-st_x= StandardScaler()   
+st_x= StandardScaler()
 st_x.fit(X_train) 
 X_train= st_x.fit_transform(X_train)    
 X_test= st_x.transform(X_test)
