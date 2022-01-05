@@ -1,0 +1,283 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#"
+     xml:base="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Are_Saved_In -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Are_Saved_In">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Songs"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SLAC"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Capture_informations_from -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Capture_informations_from">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SMARTPHONE"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Wifi_Networks"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Connect_to -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Connect_to">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Migrate_stream_audio_to"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#RA"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SLAC"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Feed -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Feed">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SLAC"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#ML_Model"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Is_located_in -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Is_located_in">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#RA"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SMARTPHONE"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#ROOM"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Migrate_stream_audio_to -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Migrate_stream_audio_to">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SLAC"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#RA"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Possess -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Possess">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#USER"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SMARTPHONE"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Return_room_prediction -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Return_room_prediction">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#ML_Model"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SLAC"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Send_Music_info -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Send_Music_info">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SMARTPHONE"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SLAC"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Send_info_to -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Send_info_to">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SLAC"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SMARTPHONE"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Send_wifi_info_to -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Send_wifi_info_to">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SMARTPHONE"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SLAC"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Trained_on -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Trained_on">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#ML_Model"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Training_data"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Power_level -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Power_level">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Wifi_Networks"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SSID -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SSID">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Wifi_Networks"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Bedroom -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Bedroom">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#ROOM"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Hall -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Hall">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#ROOM"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Kitchen -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Kitchen">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#ROOM"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#ML_Model -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#ML_Model">
+        <rdfs:comment xml:lang="en">Machine learning model invoked by SLAC that given the wifi info, predict the room in which the smartphone is located.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#RA -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#RA">
+        <rdfs:comment xml:lang="en">Audio speaker which play the song</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#ROOM -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#ROOM">
+        <rdfs:comment xml:lang="en">Place in which the RA is located or where the user is</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SLAC -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SLAC">
+        <rdfs:comment xml:lang="en">PC Server thet gather information about the user location from the user&apos;s smartphone, localize it and gather info about the music that the user wants to play</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SMARTPHONE -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#SMARTPHONE">
+        <rdfs:comment xml:lang="en">Mobile device used by the user that communicate with SLAC, it capture the info from the wifi networks around (SSID and power level) and send them to the SLAC server allowing it to localize it (and the user). Then it let the user choose among the music avaiable in the SLAC storage to play.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Songs -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Songs">
+        <rdfs:comment xml:lang="en">They are stored in the SLAC, chosen by the user via Smartphone and played on the respective RA</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Speaker_BT -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Speaker_BT">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#RA"/>
+        <rdfs:comment xml:lang="en">Bluetooth speaker device</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Training_data -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Training_data">
+        <rdfs:comment xml:lang="en">Matrix that contains observation made in every room before testing the model</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#USER -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#USER">
+        <rdfs:comment xml:lang="en">Choose the song to play via the Smartphone and move around among the rooms</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Wifi_Networks -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/danil/ontologies/2021/9/Multi-room-Audio#Wifi_Networks">
+        <rdfs:comment xml:lang="en">WiFi networks near the user</rdfs:comment>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
